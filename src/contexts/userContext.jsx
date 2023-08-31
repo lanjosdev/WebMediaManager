@@ -1,10 +1,9 @@
 // Funcionalidades / Libs:
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// import { USER_LOGIN } from "../API/userApi";
 
-// import { CHECK_TOKEN, USER_LOGIN } from "../API/userApi";
-
-// Componentes:
+import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
 
@@ -13,13 +12,12 @@ export const UserContext = createContext({});
 
 // Provedor do contexto acima (prove os values(var, states, metodos, etc) aos filhos desse provedor):
 export default function UserProvider({ children }) {
-    // Abaixo Values do contexto (variables e functions):
-    const [user, setUser] = useState(null);
+    const [userDetails, setUserDetails] = useState(null);
     const [loadingAuth, setLoadingAuth] = useState(false);
-    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
+//Usar um useEffect que se tiver logado direcione para page home
     // useEffect(()=> {
     //     async function checkUserLogado(){
     //         const tokenLocal = localStorage.getItem('tokenUser');
@@ -34,111 +32,93 @@ export default function UserProvider({ children }) {
     //     checkUserLogado();
     // }, [])
 
+    // useEffect(()=> {
+    //   async function checkToken() {
+    //     let t = Cookies.get('token');
+    //     if(t){
+    //         let result_token = await CHECK_TOKEN(t);
+    //         if(result_token === true)
+    //             navigate('/home');
+    //         else
+    //         {
+    //             Cookies.remove('token');
+    //             navigate('/');
+    //         }
+    //     }
+    //   }
+    //   checkToken();
+    // }, [navigate]);
+    
+
     // Logar usuario:
-    async function authLogin(email, password) {
-        setLoading(true);
+    async function logarUser(email, password) {
+        setLoadingAuth(true);
+
+        // Simulando USER_LOGIN(email, password).then...
+        setTimeout(()=> {
         
-        try {
-        await USER_LOGIN(user, password)
-        .then((res)=> {
-            Cookies.set('token', res, { expires: 1 });
+            let res = {
+                id: 1,
+                name: "Renato",
+                email: "admin@bizsys.com.br",
+                emailverifiedat: "2023-07-28T14:54:39.000000Z",
+                loglevel: 1,
+                createdat: "2023-07-28T14:54:39.000000Z",
+                updatedat: null,
+                deletedat: null,
+                token: "2|NcZhZ3DFL3GyXrJyEyNokJDSIkjhVxFndUXe6Q5p",
+            }
+    
+            setUserDetails(res);
+            Cookies.set('token', res.token, { expires: 1 });
             toast.success('LOGIN SUCCESS');
-            setUser('');
-            setPassword('');
-            // navigate('/home');
-            navigate('/home', { replace: true });
-        })
-        } catch(error) {
-        toast.error("LOGIN INVÁLIDO!");
-        console.log('DEU ERRO NO LOGIN');
-        console.log(error);
-        }
-        
-        setLoading(false);
-        
+            setLoadingAuth(false);
+            console.log(userDetails);
 
+            const formulario = document.querySelector('form');
+            formulario.reset();
+            navigate('/home');
 
+        }, 1500)        
+        // Simulando then.
 
-        // setLoadingAuth(true);
-        
-        // // função de autenticar o login
-        // await signInWithEmailAndPassword(auth, email, password)
-        // .then(async (valueUser)=> {
-        //     let uid = valueUser.user.uid;
-
-        //     // const docRef = doc(db, "users", uid);
-
-        //     // função que busca dado (getDoc)
-        //     const docSnap = await getDoc(doc(db, "users", uid));
-
-        //     let dadosUser = {
-        //         uid: docSnap.data().idUser,
-        //         nome: docSnap.data().nome,
-        //         email: valueUser.user.email,
-        //         avatarUrl: docSnap.data().avatarUrl
-        //     };
-        //     setUser(dadosUser);
-        //     storageUser(dadosUser);
-        //     toast.success('Login realizado com sucesso!');
-
-        //     navigate('/dashboard');
+        // try {
+        // await USER_LOGIN(email, password)
+        // .then((res)=> {
+        //     Cookies.set('token', res.token, { expires: 1 });
+        //     toast.success('LOGIN SUCCESS');
+        //     // navigate('/home');
+        //     navigate('/home', { replace: true });
         // })
-        // .catch((error)=> {
-        //     console.log('ERRO AO LOGAR!');
+        // } catch(error) {
+        //     toast.error("LOGIN INVÁLIDO!");
+        //     console.log('DEU ERRO NO LOGIN');
         //     console.log(error);
-        //     toast.error('LOGIN INVÁLIDO!');
-        // })
-
-        // setLoadingAuth(false);
-
+        // }
+        
+        // setLoadingAuth(false);      
     }
 
-    // Cadastrar um novo usuario:
-    async function authRegister(email, password, name) {
+    // Cadastrar usuario:
+    async function addUser(email, password, name) {
         setLoadingAuth(true);
         
         // função de criar conta
-        await createUserWithEmailAndPassword(auth, email, password)
-        .then(async (valuesUser)=> {
-            let uid = valuesUser.user.uid;
+        // chama função USER_ADD na userApi.js
 
-            // função de criar dados na DB
-            await setDoc(doc(db, "users", uid), {
-                idUser: uid,
-                nome: name,
-                avatarUrl: null
-            })
-            .then(()=> {
-                let dadosUser = {
-                    uid: uid,
-                    nome: name,
-                    email: valuesUser.user.email,
-                    avatarUrl: null
-                };
-                setUser(dadosUser);
-                storageUser(dadosUser);
-                toast.success('Cadastro realizado com sucesso!');
-
-                navigate('/dashboard');
-            })
-        })
-        .catch((error)=> {
-            console.log('DEU ERRO!');
-            console.log(error);
-        })
 
         setLoadingAuth(false);
     }
 
-    // Salvar dados do user no localstorage:
+    // Salvar dados do user no cookies:
     function storageUser(data) {
-        localStorage.setItem('tokenUser', JSON.stringify(data));
+        // localStorage.setItem('tokenUser', JSON.stringify(data));
     }
 
     async function logout() {
-        await signOut(auth);
-        localStorage.removeItem('tokenUser');
-        setUser(null);
+        // await signOut(auth);
+        // localStorage.removeItem('tokenUser');
+        // setUser(null);
     }
 
 
@@ -147,15 +127,14 @@ export default function UserProvider({ children }) {
     return (
         <UserContext.Provider
             value={{
-                logado: !!user, //se for null = false OU true
-                user,
+                logado: !!userDetails, //se for null = false OU true
+                userDetails,
                 loadingAuth,
-                loading,
-                authLogin,
-                authRegister,
+                logarUser,
+                addUser,
                 logout,
                 storageUser,
-                setUser
+                setUserDetails
             }}
         >
             {children}

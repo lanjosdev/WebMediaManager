@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 // Pages:
 import Login from "../pages/Login";
+import Home from "../pages/Home";
 
 
 // Components:
@@ -14,6 +15,10 @@ export function AppRoutes() {
     return (
         <Routes>
             <Route path="/" element={ <Login/> } />
+
+            {/* HOME - MEDIAS */}
+            <Route path="/home" element={ <Home/> } />
+            {/* HOME - MEDIAS */}
 
 
             {/* CHAMADOS */}
