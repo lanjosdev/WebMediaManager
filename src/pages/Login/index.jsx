@@ -1,29 +1,39 @@
 // Funcionalidades / Libs:
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import Cookies from "js-cookie";
 
 // Contexts:
-import { UserContext } from "../../contexts/userContext";
+import { UserContext } from '../../contexts/userContext';
 
 // Assets:
 import Logo from '../../assets/LOGO-BIZSYS_preto.png';
 import { AiOutlineUser, AiOutlineLock } from 'react-icons/ai';
 
-// Estilo:
+// // Estilo:
 import './login.scss';
 
 
 export default function Login() {
   const emailRef = useRef('');
   const passwordRef = useRef('');
-
   const [showSenha, setShowSenha] = useState(false);
 
-  const {
-    logarUser,
-    loadingAuth
-  } = useContext(UserContext);
+  const {loadingAuth, logarUser} = useContext(UserContext); 
+  
+  const navigate = useNavigate();
 
 //Usar um useEffect que se tiver logado direcione para page home (chamar função no context)
+  useEffect(()=> {
+    function checkUserLogado() {
+      const userCookie = Cookies.get('userLocal');
+      if(userCookie) {
+        navigate('/home'); //Será checkado a valida do token ao passar no userContenxt
+      } 
+    } 
+    checkUserLogado();
+  }, [navigate]);
 
   async function handleSubmitLogin(e) {
     e.preventDefault();
@@ -32,11 +42,12 @@ export default function Login() {
     const password = passwordRef.current?.value;
 
     if(email !== '' && password !== '') {
-      await logarUser(email, password)
+      await logarUser() //colocar email e password
     }        
   } 
   
   return (
+    <>
     <main className='Login-container'>
       <div className="grid fadeIn">
 
@@ -75,14 +86,17 @@ export default function Login() {
             <label htmlFor="showSenha">Mostrar senha</label>
           </div>
 
-          <button type='submit'>{loadingAuth ? 'Verificando...' : 'Entrar'}</button>
+          <button type='submit'>
+            {loadingAuth ? 'Verificando...' : 'Entrar'}
+          </button>
         </form>
 
       </div>  
-
-      <footer>
-          <p>&copy;2023 Bizsys</p>
-      </footer>
     </main>
+
+    <footer>
+      <p>&copy;2023 Bizsys</p>
+    </footer>
+    </>
   );
 }

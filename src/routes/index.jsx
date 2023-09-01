@@ -7,17 +7,18 @@ import Home from "../pages/Home";
 
 
 // Components:
-// import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 
 
 export function AppRoutes() {
-
     return (
         <Routes>
             <Route path="/" element={ <Login/> } />
 
             {/* HOME - MEDIAS */}
-            <Route path="/home" element={ <Home/> } />
+            <Route path="/home" element={ 
+                <PrivateRoute> <Home/> </PrivateRoute>
+            } />
             {/* HOME - MEDIAS */}
 
 

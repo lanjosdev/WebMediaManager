@@ -1,10 +1,11 @@
 // Funcionalidades / Libs:
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { USER_LOGIN } from "../API/userApi";
 
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import PropTypes from 'prop-types';
+
 
 
 // Cria o Contexto e deixe exportado:
@@ -13,50 +14,32 @@ export const UserContext = createContext({});
 // Provedor do contexto acima (prove os values(var, states, metodos, etc) aos filhos desse provedor):
 export default function UserProvider({ children }) {
     const [userDetails, setUserDetails] = useState(null);
+    const [loadingRoute, setLoadingRoute] = useState(true);
     const [loadingAuth, setLoadingAuth] = useState(false);
 
     const navigate = useNavigate();
 
-//Usar um useEffect que se tiver logado direcione para page home
-    // useEffect(()=> {
-    //     async function checkUserLogado(){
-    //         const tokenLocal = localStorage.getItem('tokenUser');
-    //         // seria bom tbm fazer o check se o token ainda está valido
+    // useEffect Carrega dados do Cookies + Check validade token:
+    useEffect(()=> {
+        async function checkUserLogado() {
+            const userCookie = Cookies.get('userLocal');
 
-    //         if(tokenLocal){
-    //             setUser(JSON.parse(tokenLocal));
-    //         }
+            if(userCookie) {
+                // aqui seria bom tbm fazer um checkToken para ver se é valido oq está no cokkie (senão: remove cookie + direcionada para login)
+                setUserDetails(JSON.parse(userCookie));
+            } 
 
-    //         setLoading(false);
-    //     }
-    //     checkUserLogado();
-    // }, [])
-
-    // useEffect(()=> {
-    //   async function checkToken() {
-    //     let t = Cookies.get('token');
-    //     if(t){
-    //         let result_token = await CHECK_TOKEN(t);
-    //         if(result_token === true)
-    //             navigate('/home');
-    //         else
-    //         {
-    //             Cookies.remove('token');
-    //             navigate('/');
-    //         }
-    //     }
-    //   }
-    //   checkToken();
-    // }, [navigate]);
-    
+            setLoadingRoute(false);
+        } 
+        checkUserLogado();
+    }, []);
 
     // Logar usuario:
-    async function logarUser(email, password) {
+    async function logarUser() {
         setLoadingAuth(true);
 
-        // Simulando USER_LOGIN(email, password).then...
+        // Simulando function API USER_LOGIN(email, password).then...
         setTimeout(()=> {
-        
             let res = {
                 id: 1,
                 name: "Renato",
@@ -66,78 +49,40 @@ export default function UserProvider({ children }) {
                 createdat: "2023-07-28T14:54:39.000000Z",
                 updatedat: null,
                 deletedat: null,
-                token: "2|NcZhZ3DFL3GyXrJyEyNokJDSIkjhVxFndUXe6Q5p",
-            }
+                token: "2|NcZhZ3DFL3GyXrJyEyNokJDSIkjhVxFndUXe6Q5p"
+            };
     
             setUserDetails(res);
-            Cookies.set('token', res.token, { expires: 1 });
+            Cookies.set('userLocal', JSON.stringify(res), { expires: 1 });
             toast.success('LOGIN SUCCESS');
-            setLoadingAuth(false);
-            console.log(userDetails);
 
+            setLoadingAuth(false);
             const formulario = document.querySelector('form');
             formulario.reset();
             navigate('/home');
-
-        }, 1500)        
+        }, 1500);       
         // Simulando then.
 
-        // try {
-        // await USER_LOGIN(email, password)
-        // .then((res)=> {
-        //     Cookies.set('token', res.token, { expires: 1 });
-        //     toast.success('LOGIN SUCCESS');
-        //     // navigate('/home');
-        //     navigate('/home', { replace: true });
-        // })
-        // } catch(error) {
-        //     toast.error("LOGIN INVÁLIDO!");
-        //     console.log('DEU ERRO NO LOGIN');
-        //     console.log(error);
-        // }
-        
-        // setLoadingAuth(false);      
+        // setLoadingAuth(false);
     }
 
-    // Cadastrar usuario:
-    async function addUser(email, password, name) {
-        setLoadingAuth(true);
-        
-        // função de criar conta
-        // chama função USER_ADD na userApi.js
-
-
-        setLoadingAuth(false);
-    }
-
-    // Salvar dados do user no cookies:
-    function storageUser(data) {
-        // localStorage.setItem('tokenUser', JSON.stringify(data));
-    }
-
-    async function logout() {
-        // await signOut(auth);
-        // localStorage.removeItem('tokenUser');
-        // setUser(null);
-    }
-
-
-
-    // Retorna os values para os filhos:
+    
     return (
         <UserContext.Provider
             value={{
                 logado: !!userDetails, //se for null = false OU true
                 userDetails,
-                loadingAuth,
+                loadingRoute,
+                loadingAuth,                
                 logarUser,
-                addUser,
-                logout,
-                storageUser,
                 setUserDetails
-            }}
+            }}  
         >
             {children}
         </UserContext.Provider>
     )
+}
+
+UserProvider.propTypes = {
+    children: PropTypes.array.isRequired,
 }

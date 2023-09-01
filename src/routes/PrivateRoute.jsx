@@ -1,29 +1,35 @@
 // Funcionalidades / Libs:
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // Contexts:
-import { AuthContext } from '../contexts/authContext';
+import { UserContext } from '../contexts/userContext';
 
 // Estilo:
+import './privateRoute.scss';
 
 
 export default function PrivateRoute({ children }) {
-    const { logado, loading } = useContext(AuthContext);
+    const { loadingRoute, logado } = useContext(UserContext);
 
     return (
         <>
-        {loading ? (
-            <h1 className='title-loading'>Carregando...</h1>
+        {loadingRoute ? (
+            <div className='title-loading'>
+                <h1>Direcionando rota...</h1>
+            </div>
         ) : (
-            
             logado ? (
                 children
             ) : (
                 <Navigate to='/' />
             )
-        
         )}
         </>
     )
+}
+
+PrivateRoute.propTypes = {
+    children: PropTypes.array.isRequired,
 }

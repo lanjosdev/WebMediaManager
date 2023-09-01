@@ -97,15 +97,6 @@ main.Login-container {
         }
     }
 
-    footer {
-        position: absolute;
-        bottom: 4%;
-        right: 0;
-        left: 0;
-
-        text-align: center;
-    }
-
 
     // RESPONSIVIDADE:
     /* Mobile geral */
@@ -119,4 +110,14 @@ main.Login-container {
         }
 
     }
+}
+
+footer {
+    position: fixed;
+    bottom: 4%;
+    right: 0;
+    left: 0;
+    z-index: -1;
+
+    text-align: center;
 }
