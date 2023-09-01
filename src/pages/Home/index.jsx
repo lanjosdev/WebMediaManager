@@ -14,7 +14,7 @@ import './home.scss';
 
 
 export default function Home() {
-    const {userDetails} = useContext(UserContext);
+    const {userDetails, logoutUser} = useContext(UserContext);
     console.log(userDetails);
 //   const emailRef = useRef('');
 //   const passwordRef = useRef('');
@@ -25,9 +25,7 @@ export default function Home() {
     return (
         <div className='Container'>
 
-            <Header 
-            // userLevel={userDetails.loglevel}
-            />
+            <Header userLevel={userDetails.loglevel} logout={logoutUser} />
 
             <main className="page-content">
                 <div className="grid">

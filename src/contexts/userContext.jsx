@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import PropTypes from 'prop-types';
-
+import PropTypes, { func } from 'prop-types';
 
 
 // Cria o Contexto e deixe exportado:
@@ -45,7 +44,7 @@ export default function UserProvider({ children }) {
                 name: "Renato",
                 email: "admin@bizsys.com.br",
                 emailverifiedat: "2023-07-28T14:54:39.000000Z",
-                loglevel: 1,
+                loglevel: 100,
                 createdat: "2023-07-28T14:54:39.000000Z",
                 updatedat: null,
                 deletedat: null,
@@ -66,6 +65,12 @@ export default function UserProvider({ children }) {
         // setLoadingAuth(false);
     }
 
+    // Logout usuario:
+    function logoutUser() {
+        Cookies.remove('userLocal');
+        setUserDetails(null);                
+    }
+
     
     return (
         <UserContext.Provider
@@ -75,7 +80,7 @@ export default function UserProvider({ children }) {
                 loadingRoute,
                 loadingAuth,                
                 logarUser,
-                setUserDetails
+                logoutUser
             }}  
         >
             {children}

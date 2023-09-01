@@ -1,6 +1,6 @@
 // Funcionalidades / Libs:
 // import { useState, useEffect } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 // // Assets:
 import Logo from '../assets/LOGO-BIZSYS_preto.png';
@@ -11,7 +11,11 @@ import { TbLogout } from 'react-icons/tb';
 import './header.scss';
 
 
-export function Header({ userLevel }) {
+export function Header({ userLevel, logout }) {
+
+    function handleClickLogout() {
+        logout();
+    }
 
     return (
         <header className="Header-container">
@@ -37,7 +41,7 @@ export function Header({ userLevel }) {
                     </ul>
                 </nav>}                
 
-                <button className='btn-logout' onClick="">
+                <button className='btn-logout' onClick={handleClickLogout}>
                     <span>Sair</span><TbLogout/>
                 </button>
 
