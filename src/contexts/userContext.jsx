@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 // Cria o Contexto e deixe exportado:
@@ -44,7 +44,7 @@ export default function UserProvider({ children }) {
                 name: "Renato",
                 email: "admin@bizsys.com.br",
                 emailverifiedat: "2023-07-28T14:54:39.000000Z",
-                loglevel: 100,
+                loglevel: 1,
                 createdat: "2023-07-28T14:54:39.000000Z",
                 updatedat: null,
                 deletedat: null,
@@ -65,6 +65,44 @@ export default function UserProvider({ children }) {
         // setLoadingAuth(false);
     }
 
+    // Busca projetos autorizados:
+    function carregaProjetosAutorizados() {
+        // Simulando function API GET_PROJECTS.then...
+        setTimeout(()=> {
+            let res = [
+                {
+                    id: 1,
+                    nome: 'Samsung Flip'
+                },
+                {
+                    id: 2,
+                    nome: 'Burguer King'
+                },
+                {
+                    id: 3,
+                    nome: 'Champions League'
+                }
+            ];
+
+            if(res.length === 0) {
+                console.log('NENHUM PROJETO ENCONTRADO!');
+                return;
+            }
+
+            let listaProjetos = [];
+            res.forEach((projeto)=> {
+                listaProjetos.push({
+                    id: projeto.id,
+                    nomeProjeto: projeto.nome
+                })                
+            })
+            console.log(listaProjetos);
+
+            return;
+        }, 1500);
+        // Simulando then.        
+    }
+
     // Logout usuario:
     function logoutUser() {
         Cookies.remove('userLocal');
@@ -80,6 +118,7 @@ export default function UserProvider({ children }) {
                 loadingRoute,
                 loadingAuth,                
                 logarUser,
+                carregaProjetosAutorizados,
                 logoutUser
             }}  
         >
