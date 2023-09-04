@@ -8,6 +8,7 @@ import { UserContext } from "../../contexts/userContext";
 import { Header } from "../../components/Header";
 
 // Assets:
+import Thumb from '../../assets/thumbModal.jpg';
 
 // Estilo:
 import './home.scss';
@@ -22,6 +23,10 @@ export default function Home() {
     // console.log(userDetails);
     const [loadingProjetos, setLoadingProjetos] = useState(true);
     const [projetos, setProjetos] = useState([]);
+    const [projetoSelecionado, setProjetoSelecionado] = useState('');
+
+    // const [loadingMidias, setLoadingMidias] = useState(true);
+    const [midias, setMidias] = useState([2]);
 
 
     useEffect(()=> {
@@ -38,15 +43,17 @@ export default function Home() {
                         id: 2,
                         nome: 'Burguer King'
                     },
-                    {
-                        id: 3,
-                        nome: 'Champions League'
-                    }
+                    // {
+                    //     id: 3,
+                    //     nome: 'Champions League'
+                    // }
                 ];
     
                 if(res.length === 0) {
                     console.log('NENHUM PROJETO ENCONTRADO!');
                     return;
+                } else {
+                    setProjetoSelecionado(0); //o 1º selecionado como padrão
                 }
     
                 let listaProjetos = [];
@@ -60,7 +67,6 @@ export default function Home() {
                 setProjetos(listaProjetos);
                 setLoadingProjetos(false);
             }, 1500);
-            
             // })           
         }
         carregaProjetos();
@@ -83,34 +89,122 @@ export default function Home() {
 
                     
                     <div className="select-project">
-                        <label htmlFor="projeto">Projeto selecionado:</label>
+                        <label>Projeto selecionado:</label>
                         {loadingProjetos ? (
+
                             <select disabled>
                                 <option value="">Buscando...</option>
                             </select>
+
                         ) : (
                             projetos.length === 0 ? (
+
                                 <select style={{color: 'red'}}>
-                                    <option>Nenhum projeto encontrado!</option>
+                                    <option value=''>Nenhum projeto encontrado!</option>
                                 </select>
+
                             ) : (
+
                                 <select 
-                                    id="projeto"
+                                    value={projetoSelecionado}
+                                    onChange={(e)=> setProjetoSelecionado(e.target.value)}
                                 >
-                                    <option value="">Samsung Flip</option>
-                                    <option value="">Burguer King</option>
-                                    <option value="">Champion Legue</option>
+                                    {projetos.map((projeto, idx)=> (
+                                        <option key={idx} value={idx} title={idx}>
+                                            {projeto.nomeProjeto}
+                                        </option>
+                                    ))}
                                 </select>
+
                             )
                         )}
-                        
                     </div>
 
                     <div className="painel-midias">
-                        <p>
-                            <span>Nenhum projeto encontrado!</span> <br />
-                            (Contate o administrador para você ser adicionado a um projeto)
-                        </p>
+                        {loadingProjetos ? (
+
+                            <p className="loading-midias">
+                                <strong>Carregando Mídias...</strong>
+                            </p>
+
+                        ) : (
+                            projetos.length === 0 ? (
+
+                                <p className="not-projects">
+                                    <span>Nenhum projeto encontrado!</span> <br />
+                                    (Contate o administrador para você ser adicionado a um projeto)
+                                </p>
+
+                            ) : (
+                                <>
+                                <div className='cabecalho-painel'>
+                                    <h2>Lista de mídias</h2>
+                                    {midias.length !== 0 && 
+                                    <button className="add-midia">+ Add mídia</button>}
+                                </div>
+
+                                <div className="content-painel">
+                                    
+                                {midias.length === 0 ? (
+
+                                    <div className="not-medias">
+                                        <p>
+                                            Nenhuma mídia foi adicionada!
+                                        </p>
+                                        <button className="add-midia">
+                                            + Add mídia
+                                        </button>
+                                    </div>
+
+                                ) : (
+                                    <>
+                                    <p className="sub-cabecalho">
+                                        Basta arrastar e soltar as mídias para ordernar a sequência de exibição:
+                                    </p>
+
+                                    <ul className="list-midias">
+                                        {/* roda o map a partir daqui */}
+                                    <li className="item-midia">
+                                        <div className="item-content">
+                                            <img src={Thumb} alt="seila" />
+                                            <div className="item-indice">1</div>
+                                        </div>
+                                        <input 
+                                            type="checkbox"
+                                            title="Ativa/Desativa" 
+                                        />
+                                    </li>
+
+                                    <li className="item-midia">
+                                        <div className="item-content">
+                                            <img src={Thumb} alt="seila" />
+                                            <div className="item-indice">2</div>
+                                        </div>
+                                        <input 
+                                            type="checkbox"
+                                            title="Ativa/Desativa" 
+                                        />
+                                    </li>
+
+                                    <li className="item-midia">
+                                        <div className="item-content">
+                                            <img src={Thumb} alt="seila" />
+                                            <div className="item-indice">3</div>
+                                        </div>
+                                        <input 
+                                            type="checkbox"
+                                            title="Ativa/Desativa" 
+                                        />
+                                    </li>
+
+                                    </ul>
+                                    </>
+                                )}
+                                </div>
+                                </>
+                            )
+                        )}
+                        
                     </div>
 
                 </div>
