@@ -42,7 +42,7 @@ export default function Login() {
     const password = passwordRef.current?.value;
 
     if(email !== '' && password !== '') {
-      await logarUser() //colocar email e password
+      await logarUser(email) //colocar email e password
     }        
   } 
   

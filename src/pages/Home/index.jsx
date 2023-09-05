@@ -5,10 +5,11 @@ import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../contexts/userContext";
 
 // Components:
-import { Header } from "../../components/Header";
+import { Header } from '../../components/Header';
 
 // Assets:
-import Thumb from '../../assets/thumbModal.jpg';
+// import Thumb from '../../assets/thumbModal.jpg';
+import { MdImage, MdVideoLibrary } from 'react-icons/md';
 
 // Estilo:
 import './home.scss';
@@ -18,23 +19,42 @@ export default function Home() {
     const {
         userDetails, 
         logoutUser, 
-        carregaProjetosAutorizados
+        carregaProjetosAutorizados,
+        carregaMidiasProjetc,
     } = useContext(UserContext);
     // console.log(userDetails);
     const [loadingProjetos, setLoadingProjetos] = useState(true);
     const [projetos, setProjetos] = useState([]);
     const [projetoSelecionado, setProjetoSelecionado] = useState('');
 
-    // const [loadingMidias, setLoadingMidias] = useState(true);
-    const [midias, setMidias] = useState([2]);
+    const [loadingMidias, setLoadingMidias] = useState(true);
+    const [midias, setMidias] = useState([]);
+
+    const puxaMidiasEffect = carregaMidiasProjetc;
 
 
     useEffect(()=> {
         function carregaProjetos() {
-            carregaProjetosAutorizados()
+            console.log(userDetails.loglevel);
+            // let levelUser = 
+            //await
+            // carregaProjetosAutorizados()
             // .then(()=> {
             setTimeout(()=> {
-                let res = [
+                let res = userDetails.loglevel === 1 ? [
+                    {
+                        id: 2,
+                        nome: 'Burguer King'
+                    },
+                    {
+                        id: 4,
+                        nome: 'Champions League'
+                    },
+                    {
+                        id: 0,
+                        nome: 'Projeto sem midia'
+                    }
+                ] : [
                     {
                         id: 1,
                         nome: 'Samsung Flip'
@@ -43,17 +63,23 @@ export default function Home() {
                         id: 2,
                         nome: 'Burguer King'
                     },
-                    // {
-                    //     id: 3,
-                    //     nome: 'Champions League'
-                    // }
+                    {
+                        id: 4,
+                        nome: 'Champions League'
+                    },
+                    {
+                        id: 5,
+                        nome: 'Copa Feminina Visa'
+                    },
+                    {
+                        id: 0,
+                        nome: 'Projeto sem midia'
+                    }
                 ];
     
                 if(res.length === 0) {
                     console.log('NENHUM PROJETO ENCONTRADO!');
                     return;
-                } else {
-                    setProjetoSelecionado(0); //o 1º selecionado como padrão
                 }
     
                 let listaProjetos = [];
@@ -63,15 +89,50 @@ export default function Home() {
                         nomeProjeto: projeto.nome
                     })                
                 })
-                console.log(listaProjetos);
+                
                 setProjetos(listaProjetos);
+                
                 setLoadingProjetos(false);
+
+                //await Carrega Midias de acordo com id do projeto (padrao o 1° q carrega):
+                let listaMidias = [];
+                // setTimeout(()=> {
+                setProjetoSelecionado(listaProjetos[0].id);
+                listaMidias = puxaMidiasEffect(listaProjetos[0].id);
+                console.log(listaMidias);
+                // }, 1500);
+                
+                setMidias(listaMidias);
+                setLoadingMidias(false);
             }, 1500);
             // })           
         }
         carregaProjetos();
-    }, [carregaProjetosAutorizados]);
+    }, [puxaMidiasEffect, userDetails]);
 
+    function selectCarregaMidias(e) {
+        setProjetoSelecionado(e.target.value);
+
+        setLoadingMidias(true);
+
+        //await Carrega Midias de acordo com id do projeto:
+        let listaMidias = [];
+        // setTimeout(()=> {
+            listaMidias = carregaMidiasProjetc(e.target.value);
+        // }, 1500);
+        
+        setMidias(listaMidias);
+
+        setLoadingMidias(false);
+    }
+
+    function updateChecked(midia) {
+        const newLista = [...midias];
+    
+        const n_check = (midia.checked === 1)? 0 : 1; // 0 ou 1
+        newLista.map((item)=> {item.id === midia.id && (item.checked = n_check)});
+        setMidias(newLista);
+    }
 
 
     return (
@@ -82,7 +143,7 @@ export default function Home() {
             <main className="page-content">
                 <div className="grid">
 
-                    <h1>Bem-vindo(a) {userDetails.name}!</h1>
+                    <h1>Bem-vindo(a) {userDetails.loglevel === 100 ? 'Administrador' : userDetails.name}!</h1>
                     <p>
                         Abaixo você pode visualizar, adicionar e editar as mídias de acordo com o projeto selecionado.
                     </p>
@@ -107,10 +168,10 @@ export default function Home() {
 
                                 <select 
                                     value={projetoSelecionado}
-                                    onChange={(e)=> setProjetoSelecionado(e.target.value)}
+                                    onChange={selectCarregaMidias}
                                 >
                                     {projetos.map((projeto, idx)=> (
-                                        <option key={idx} value={idx} title={idx}>
+                                        <option key={idx} value={projeto.id} title={projeto.id}>
                                             {projeto.nomeProjeto}
                                         </option>
                                     ))}
@@ -121,7 +182,7 @@ export default function Home() {
                     </div>
 
                     <div className="painel-midias">
-                        {loadingProjetos ? (
+                        {loadingMidias ? (
 
                             <p className="loading-midias">
                                 <strong>Carregando Mídias...</strong>
@@ -163,40 +224,33 @@ export default function Home() {
                                     </p>
 
                                     <ul className="list-midias">
-                                        {/* roda o map a partir daqui */}
-                                    <li className="item-midia">
-                                        <div className="item-content">
-                                            <img src={Thumb} alt="seila" />
-                                            <div className="item-indice">1</div>
-                                        </div>
-                                        <input 
-                                            type="checkbox"
-                                            title="Ativa/Desativa" 
-                                        />
-                                    </li>
-
-                                    <li className="item-midia">
-                                        <div className="item-content">
-                                            <img src={Thumb} alt="seila" />
-                                            <div className="item-indice">2</div>
-                                        </div>
-                                        <input 
-                                            type="checkbox"
-                                            title="Ativa/Desativa" 
-                                        />
-                                    </li>
-
-                                    <li className="item-midia">
-                                        <div className="item-content">
-                                            <img src={Thumb} alt="seila" />
-                                            <div className="item-indice">3</div>
-                                        </div>
-                                        <input 
-                                            type="checkbox"
-                                            title="Ativa/Desativa" 
-                                        />
-                                    </li>
-
+                                        {midias.map((midia, idx)=> (
+                                        <li 
+                                            key={midia.id} 
+                                            className="item-midia"
+                                        >
+                                            <div className={midia.checked === 1 ? "item-content ativa" : "item-content"}>
+                                                {midia.checked === 0 && (
+                                                    <div className="midia-disable">
+                                                        <span>Mídia desativada</span>
+                                                    </div>
+                                                )}
+                                                <img src={midia.media_thumb
+} alt="seila" />
+                                                <div className="item-indice">
+                                                    <p>{idx + 1 + ""}</p>
+                                                    <span>{midia.media_type === 1 ? <MdImage/> : <MdVideoLibrary/>}</span>
+                                                </div>
+                                            </div>
+                                            <input 
+                                                type="checkbox"
+                                                id={midia.id}
+                                                checked={midia.checked}
+                                                onChange={()=> updateChecked(midia)}
+                                                title="Ativa/Desativa" 
+                                            />
+                                        </li>
+                                        ))}
                                     </ul>
                                     </>
                                 )}

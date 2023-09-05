@@ -3,8 +3,8 @@
 import { Link, NavLink } from "react-router-dom";
 
 // // Assets:
-import Logo from '../assets/LOGO-BIZSYS_preto.png';
-import LogoP from '../assets/BIZSYS_logo_icon.png';
+import Logo from '../../assets/LOGO-BIZSYS_preto.png';
+import LogoP from '../../assets/BIZSYS_logo_icon.png';
 import { TbLogout } from 'react-icons/tb';
 
 // Estilo:

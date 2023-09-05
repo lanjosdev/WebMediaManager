@@ -61,6 +61,8 @@ main.page-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            margin-bottom: 5px;
         }
         button.add-midia {
             @include style-btn(4rem, $color-main, 1.6rem, $white);
@@ -81,12 +83,12 @@ main.page-content {
                 padding: 4rem 0;
     
                 p {
-                    font-size: 2rem;
+                    font-size: 1.8rem;
                     font-weight: 700;
                     line-height: 150%; /* 30px */
                     letter-spacing: -0.2px;
     
-                    margin-bottom: 1rem;
+                    margin-bottom: .5rem;
                 }
             }
 
@@ -94,13 +96,122 @@ main.page-content {
                 margin-bottom: 2.5rem;
             }
 
-            .list-midias {
-                
+            ul.list-midias {
+                display: flex;
+                gap: 4rem 2rem;
+                flex-wrap: wrap;
+                // display: grid;
+                // grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+                // gap: 1.75rem;
+
+                li.item-midia {
+                    text-align: center; 
+
+                    .item-content {
+                        background-color: #828181;
+                        // color: $white;
+                        width: 150px;
+                        border-radius: 7px;
+                        box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
+
+                        padding-top: 4px;
+                        margin-bottom: 10px;
+
+                        transition: all .3s ease-in-out;
+                        position: relative;
+
+                        &.ativa {
+                            background-color: $white;
+                            color: $color-main;
+
+                            img {
+                                background-color: $color-bgsecundary;
+                            }
+                        }
+
+                        &:hover {
+                            filter: brightness(0.85);
+                        }
+                        &:active {
+                            // filter: brightness(0.85);
+                            box-shadow: 0px 0px 0px 2px $color-main, 0px 1px 15px 10px rgba(49, 49, 49, 0.6);
+                            // opacity: 0.8;
+                        }
+
+                        .midia-disable {
+                            cursor: pointer;
+                            position: absolute;
+                            left: 4px;
+                            background-color: rgba(59, 58, 58, 0.589);
+                            -webkit-backdrop-filter: blur(3px);
+                            backdrop-filter: blur(3px);
+
+                            border-radius: 6px;
+                            width: 100%;
+                            height: 100%;
+                            max-width: 142px;
+                            max-height: 142px;
+                            padding: 1rem;
+
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            
+                            span {
+                                color: $white;
+                                font-weight: 600;
+
+                                transition: all .3s ease-in-out;
+                            }
+                        }
+
+                        img {
+                            cursor: pointer;
+                            margin: 0 auto;
+                            width: 142px;
+                            height: 142px;
+                            max-width: 142px;
+                            // min-height: 150px;
+                            object-fit: cover;
+
+                            border-radius: 7px;
+
+                            &:active {
+                                cursor: grab;
+                            }
+                        }
+
+                        .item-indice {
+                            cursor: grab;
+
+                            p {
+                                font-weight: bold;
+                            }
+                            svg {
+                                width: 20px;
+                                height: 20px;
+                            }
+                        }
+                    }
+
+                    > input {
+                        cursor: pointer;
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
             }
         }
-        
+    }
 
 
+    // RESPONSIVIDADE:
+    @media screen and (max-width: 480px) {
+        .painel-midias {
+            button.add-midia {
+                padding: 0 1rem;
+            }
+        }       
     }
 
 }
