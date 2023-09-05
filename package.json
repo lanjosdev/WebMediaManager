@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^16.3.0",
     "axios": "^1.5.0",
     "js-cookie": "^3.0.5",
     "prop-types": "^15.8.1",

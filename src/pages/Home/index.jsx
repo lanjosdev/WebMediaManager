@@ -1,14 +1,15 @@
 // Funcionalidades / Libs:
 import { useState, useContext, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 // Contexts:
 import { UserContext } from "../../contexts/userContext";
 
 // Components:
 import { Header } from '../../components/Header';
+import { ModalAdd } from "../../components/Modal/ModalMedia/modalAdd";
 
 // Assets:
-// import Thumb from '../../assets/thumbModal.jpg';
 import { MdImage, MdVideoLibrary } from 'react-icons/md';
 
 // Estilo:
@@ -30,13 +31,22 @@ export default function Home() {
     const [loadingMidias, setLoadingMidias] = useState(true);
     const [midias, setMidias] = useState([]);
 
-    const puxaMidiasEffect = carregaMidiasProjetc;
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    const reorder = (list, startIndex, endIndex) => {
+        const result = [...list];
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+        
+        console.log(result);
+        return result;
+    };   
 
 
     useEffect(()=> {
         function carregaProjetos() {
-            console.log(userDetails.loglevel);
-            // let levelUser = 
+            // console.log(userDetails.loglevel);
+            
             //await
             // carregaProjetosAutorizados()
             // .then(()=> {
@@ -98,8 +108,7 @@ export default function Home() {
                 let listaMidias = [];
                 // setTimeout(()=> {
                 setProjetoSelecionado(listaProjetos[0].id);
-                listaMidias = puxaMidiasEffect(listaProjetos[0].id);
-                console.log(listaMidias);
+                listaMidias = carregaMidiasProjetc(listaProjetos[0].id);
                 // }, 1500);
                 
                 setMidias(listaMidias);
@@ -108,7 +117,7 @@ export default function Home() {
             // })           
         }
         carregaProjetos();
-    }, [puxaMidiasEffect, userDetails]);
+    }, [userDetails, carregaMidiasProjetc]);
 
     function selectCarregaMidias(e) {
         setProjetoSelecionado(e.target.value);
@@ -263,6 +272,10 @@ export default function Home() {
 
                 </div>
             </main> 
+
+            {modalIsOpen && <ModalAdd
+                                closeModal={()=> setModalIsOpen(false)}
+            />}
 
         </div>
     );

@@ -21,7 +21,7 @@ export function Header({ userLevel, logout }) {
         <header className="Header-container">
             <div className="grid">
 
-                <Link to='/home'>
+                <Link to='/'>
                     <img src={Logo} alt="Logotipo" />
                     <img src={LogoP} className="imgP" alt="Logotipo" />
                 </Link>

@@ -107,7 +107,6 @@ export default function UserProvider({ children }) {
 
     // Busca midias All por id porject:
     function carregaMidiasProjetc(id) {
-        console.log(id);
         const token = JSON.parse(Cookies.get('userLocal')).token;
 
         if(token) {
@@ -146,7 +145,6 @@ export default function UserProvider({ children }) {
                 ];
 
                 midiasAll = res;
-                console.log(midiasAll);
             } else if(id == 2) {
                 res = [
                     {
@@ -176,7 +174,6 @@ export default function UserProvider({ children }) {
                 ];
 
                 midiasAll = res;
-                console.log(midiasAll);
             } else if(id == 4) {
                 res = [
                     {
@@ -217,6 +214,7 @@ export default function UserProvider({ children }) {
             }
 
                 //Puxa a sequencia da API e ordena as midias em um nova array:
+                console.log(midiasAll);
                 return midiasAll;
             // }, 1500);
             
