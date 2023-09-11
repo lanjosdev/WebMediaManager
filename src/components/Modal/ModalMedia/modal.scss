@@ -1,7 +1,7 @@
 @import '../../../styles/global.scss';
 
 div.Modal-container {
-    @include spacing-section();
+    @include spacing-lateral();
     background-color: rgba(35, 35, 35, 0.6);
     backdrop-filter: blur(2px);
 
@@ -13,35 +13,220 @@ div.Modal-container {
     left: 0;
     z-index: 20;
 
-    .modal-background {        
+    animation: showModal .3s ease-in-out;
+
+    .modal-background {   
+        position: absolute;    
         width: 100%;
         height: 100%;
-
-        animation: showModal .3s ease-in-out;
+        z-index: 21;
     }
 
     .modal-window {
-        background-color: $color-bgsecundary;
-        width: 700px;
-        // max-width: 80.2rem;
+        background-color: $color-bgprimary;
+        position: relative;
+        z-index: 30;
 
-        position: absolute;
-        // left: 15px;
-        bottom: 40px;
-        z-index: 99;
-
-        margin: auto;
-        padding: 2.5rem 20px;
+        width: 100%;
+        max-width: 80.2rem;;
         
+        margin: 0 auto;
+        margin-top: 15%;
+        padding: 2.5rem 20px;  
+        border-radius: 10px;      
+        box-shadow: 0 0 20px 5px #00000085;
 
         animation: showModal .5s ease-in-out;
 
+        .btn-close {
+            cursor: pointer;
 
-    }
-    input {
-        display: none;
+            position: absolute;
+            right: 2.5rem;
+            top: 2.5rem;
+
+            transition: all .3s;
+
+            svg {
+                width: 2rem;
+                height: 2rem;
+            }
+
+            &:hover {
+                color: red;
+            }            
+        }
+
+        h2 {
+            margin-bottom: 2.5rem;
+        }
+
+        .modal-content {
+            margin-bottom: 2.5rem;
+
+            display: flex;
+            gap: 2.5rem;
+
+            .preview {
+                h3 {
+                    margin-bottom: 1rem;
+                }
+
+                .sem-arquivo, video, img {
+                    width: 250px;
+                    max-width: 250px;
+
+                    box-shadow: 0 0 5px rgba(43, 42, 42, 0.753);
+                }
+                .sem-arquivo {
+                    border: 1px solid;
+                    height: 250px;
+
+                    text-align: center;
+                    padding: 1.5rem;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    
+                    font-weight: 600;
+                }
+            }
+
+            .info-midia {
+                h3 {
+                    margin-bottom: 1rem;
+                }
+
+                .add-midia {
+                    label, p {
+                        font-weight: 700;
+                    }
+                    span {
+                        font-weight: normal;
+                    }
+                
+                    .choice-file {
+                        margin-bottom: 5rem;
+
+                        .input-file {
+                            input {
+                                display: none;
+                            }
+                            .btn-file {
+                                @include style-btn(4rem, $color-main, 1.6rem, $white);
+                                line-height: 100%;
+                                font-weight: 600;
+                                padding: .1rem 1.5rem;
+                                border-radius: 7px;
+
+                                transition: all .3s ease-in-out;
+
+                                &:hover {
+                                    box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
+                                }
+                            }
+                        } 
+
+                        .resul {
+                            display: inline-block;
+                            margin-left: .7rem;
+
+                            line-height: 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        .actions-btn {
+            display: flex;
+            justify-content: end;
+            gap: 15px;
+
+            a, button {
+                border-radius: 7px;
+                width: 15rem;
+                font-size: 1.6rem;
+                font-weight: 600;
+            }
+
+            .btn-upload {
+                @include style-btn(35px, $color-main, 1.6rem, $white);
+
+                &:hover {
+                    box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
+                }
+                &:disabled {
+                    cursor: not-allowed;
+                }
+            }
+            
+            .btn-cancel {
+                background-color: $white;
+                border: 2px solid $black;
+
+                text-align: center;
+                line-height: 30px;
+
+                transition: all .3s ease-in-out;
+
+                &:hover {
+                    background-color: $gray-400;
+                    border: 2px solid $white;
+                    color: $white;
+                    box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
+                }
+            }
+
+            // .btn-delete {
+            //     background-color: #E02C2C;
+            //     color: $white;
+
+            //     text-align: center;
+            //     line-height: 35px;
+
+            //     transition: all .3s ease-in-out;
+
+            //     &:hover {
+            //         background-color: $white;
+            //         // border: 2px solid $white;
+            //         color: #E02C2C;
+            //         box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
+            //     }
+            // }
+        }
     }
 
+
+    // RESPONSIVIDADE:
+    /* Tablets */
+    @media screen and (max-width: 767px) {
+        .modal-window .modal-content .info-midia .add-midia .choice-file {
+            .resul {
+                display: block;
+                margin-left: 0;
+                margin-top: 1.1rem;
+            }                        
+        }
+    }
+
+    /* Tablets baixa resolução */
+    @media screen and (max-width: 600px) {
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 10%;
+
+        .modal-window {
+            margin-top: 10%;
+
+            .modal-content {
+                flex-direction: column;
+            }
+        } 
+    }
+    
+    // ANIMAÇÕES:
     @keyframes showModal {
         0% {
             opacity: 0; 

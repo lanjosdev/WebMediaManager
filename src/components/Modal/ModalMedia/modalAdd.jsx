@@ -93,7 +93,7 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
         <div className="modal-background" onClick={closeModal}></div>
 
         <form className="modal-window" onSubmit={handleAddMedia}>
-            <a className='btn-close' onClick={closeModal}><FiX/></a>
+            <a className='btn-close' onClick={closeModal} title="Fechar"><FiX/></a>
             
             <h2>{title}</h2>
 
@@ -113,11 +113,20 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
                         )} 
                         </>    
                     ) : (
-                        <img 
-                            src={!fileUrl ? thumbPreview : fileUrl}
-                            // title="Nenhum arquivo selecionado" 
-                            alt="Thumb ilustrativa"
-                        />                        
+                        !fileUrl ? (
+                            <div className="sem-arquivo"><span>Nenhum arquivo selecionado!</span></div>
+                        ) : (
+                            fileMedia.type === 'video/mp4' ? (
+                                <video controls>
+                                    <source src={fileUrl} type="video/mp4" />
+                                </video>
+                            ) : (
+                                <img
+                                    src={fileUrl}
+                                    alt="Thumb ilustrativa"
+                                />
+                            )                             
+                        )                       
                     )}
                 </div>
 
@@ -132,7 +141,7 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
 
                         <label className="input-file">
                             <a className="btn-file">
-                                Selecione o arquivo
+                                Escolher arquivo
                             </a>
                             <input
                                 type="file"
@@ -144,13 +153,13 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
                         </label>
                         {/* {hasFile ? ( */}
                             {/* // em mobile deixe display inline-block + marginleft */}
-                            <small className="resul">
-                                {emptyFile ? 
-                                <b style={{color: 'red'}}>Nada selecionado</b> 
-                                :
-                                fileMedia &&
-                                <b style={{color: 'green'}}><FiCheckCircle/> Basta clicar em “Salvar”</b>}
-                            </small>
+                        <small className="resul">
+                            {emptyFile ? 
+                            <b style={{color: 'red', paddingTop: '30px'}}>Nada selecionado</b> 
+                            :
+                            fileMedia &&
+                            <b style={{color: 'green'}}><FiCheckCircle/> Basta clicar em “Salvar”</b>}
+                        </small>
                         {/* // ) : (fileMedia && )} */}
                         <br />
                         <small>
@@ -160,7 +169,7 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
 
                     <div className="info-file">
                         <p>Mídia selecionda: <span>{fileMedia && fileMedia.name}</span></p> {/* Mandar na API o nome dentro no objeto */}
-                        <p>Tipo da mídia: <span>Imagem (<b>.mp4</b>)</span></p>
+                        <p>Tipo da mídia: {fileMedia && <span>{fileMedia.type === 'video/mp4' ? 'Vídeo' : 'Imagem'} (<b>{fileMedia.name.slice(-4)}</b>)</span>} </p>
                         <p>Tamanho: <span>{fileMedia && fileMedia.size + " bytes"}</span></p>
                     </div>
                     </div>
@@ -170,6 +179,7 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
             <div className="actions-btn">
                 <a className='btn-cancel' onClick={closeModal}>Cancelar</a>
                 <button type='submit' className='btn-upload' disabled={emptyFile}>{loading ? 'Carregando...' : 'Salvar'}</button>
+                {/* btn delete com condicional para editmodal */}
             </div>
 
         </form>
