@@ -98,7 +98,7 @@ div.Modal-container {
                     margin-bottom: 1rem;
                 }
 
-                .add-midia {
+                .midia {
                     label, p {
                         font-weight: 700;
                     }
@@ -134,6 +134,14 @@ div.Modal-container {
 
                             line-height: 0;
                         }
+                    }
+                }
+                .midia.edit {
+                    .info-file {
+                        margin-bottom: 5rem;
+                    }
+                    .choice-file {
+                        margin-bottom: 0;
                     }
                 }
             }

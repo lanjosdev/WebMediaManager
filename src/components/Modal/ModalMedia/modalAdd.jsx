@@ -7,19 +7,21 @@ import { toast } from 'react-toastify';
 // import { MEDIA_ADD, MEDIA_GET_ALL } from "../API/mediaApi";
 
 // Assets:
-import thumbPreview from '../../../assets/thumbModal.jpg';
-import { FiX, FiCheckCircle, FiUpload } from 'react-icons/fi';
+// import thumbPreview from '../../../assets/thumbModal.jpg';
+import { FiX, FiCheckCircle } from 'react-icons/fi';
 
 // Estilo:
 import './modal.scss';
 
 
-export function ModalAdd({ closeModal, action, title, updateSequence }) {
+export function ModalAdd({ closeModal, midiaEdit, updateSequence }) {
     const [fileMedia, setFileMedia] = useState(null);
     const [fileUrl, setFileUrl] = useState(null);
 
     const [emptyFile, setEmpetyFile] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    console.log(midiaEdit);
 
     // const token = Cookies.get('token');
 
@@ -34,14 +36,14 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
                 console.log('ARQUIVO OK');                                               
             } else {
                 if(file.size > 10000000) {
-                    toast.error('Arquivo muito grande! No máximo de 10MB');
+                    toast.error('Arquivo muito grande! Tamanho máximo de 10MB');
                 } else {
                     toast.warn('Arquivo não aceito');
                 }            
                 setFileMedia(null);
                 setFileUrl(null);
                 setEmpetyFile(true);
-                console.log('NÃOOOO');  
+                console.log('SEM ARQUIVO PARA ENVIAR');  
                 return;
             }
         } 
@@ -50,7 +52,6 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
         //     // setFileUrl(null);
         //     console.log(fileMedia);
         // }
-        console.log(fileMedia);
     }
 
     async function handleAddMedia(e) {
@@ -82,6 +83,7 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
 
             // console.log(fileMedia.type);
             console.log('ENVIOU');
+            console.log(fileMedia);
         }
          
         setLoading(false);
@@ -95,20 +97,20 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
         <form className="modal-window" onSubmit={handleAddMedia}>
             <a className='btn-close' onClick={closeModal} title="Fechar"><FiX/></a>
             
-            <h2>{title}</h2>
+            <h2>{midiaEdit ? 'Editar mídia' : 'Adicionando mídia'}</h2>
 
             <div className="modal-content">
                 <div className="preview">
                     <h3>Preview:</h3>
 
                     {/* ou se tem midia ai executa modal edit */}
-                    {action === 'edit' ? (
+                    {midiaEdit ? (
                         <>
-                        {action === 1 ? (
-                            <img src={"https://samsungflip.bizsys.com.br/storage/"} alt="" />
+                        {midiaEdit.media_type === 1 ? (
+                            <img src={midiaEdit.media_thumb} alt="" />
                         ) : (
                             <video controls>
-                                <source src={"https://samsungflip.bizsys.com.br/storage/"} type="video/mp4" />
+                                <source src={midiaEdit.media_thumb} type="video/mp4" />
                             </video>
                         )} 
                         </>    
@@ -132,47 +134,87 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
 
                 <div className='info-midia'>
                     {/* <div className="file"> */}
-                    <h3>Informações do arquivo selecionado:</h3>
+                    <h3>{midiaEdit ? 'Informações da mídia:' : 'Informações do arquivo selecionado:'}</h3>
 
-                    {/* daqui condicional de carrega div tal ou outra */}
-                    <div className="add-midia">
-                    <div className="choice-file">
-                        <label>Arquivo: </label>
+                    {midiaEdit ? (
+                        <div className="midia edit">
+                        <div className="info-file">
+                            {/* <p>Mídia selecionda: <span>{fileMedia && fileMedia.name}</span></p> Mandar na API o nome dentro no objeto */}
+                            <p>Tipo da mídia: <span>{midiaEdit.media_type === 1 ? 'Imagem' : 'Vídeo'} (<b>formato aqui</b>)</span> </p>
+                            <p>Dimensões: <span>{midiaEdit.media_dimensions}</span></p>
+                        </div>
 
-                        <label className="input-file">
-                            <a className="btn-file">
-                                Escolher arquivo
-                            </a>
-                            <input
-                                type="file"
-                                // name="media"
-                                accept='image/png, image/jpeg, video/mp4'
-                                onChange={onChangeFile}
-                                // style={{color: !fileMedia && 'red'}}
-                            />
-                        </label>
-                        {/* {hasFile ? ( */}
-                            {/* // em mobile deixe display inline-block + marginleft */}
-                        <small className="resul">
-                            {emptyFile ? 
-                            <b style={{color: 'red', paddingTop: '30px'}}>Nada selecionado</b> 
-                            :
-                            fileMedia &&
-                            <b style={{color: 'green'}}><FiCheckCircle/> Basta clicar em “Salvar”</b>}
-                        </small>
-                        {/* // ) : (fileMedia && )} */}
-                        <br />
-                        <small>
-                            <em>Arquivos aceitos: imagem(<b>.jpg, .png</b>) e vídeo(<b>.mp4</b>).</em>
-                        </small>
-                    </div>
+                        <div className="choice-file">
+                            <label>Arquivo: </label>
+    
+                            <label className="input-file">
+                                <a className="btn-file">
+                                    Substituir arquivo
+                                </a>
+                                <input
+                                    type="file"
+                                    // name="media"
+                                    accept='image/png, image/jpeg, video/mp4'
+                                    onChange={onChangeFile}
+                                    // style={{color: !fileMedia && 'red'}}
+                                />
+                            </label>
+                            {/* {hasFile ? ( */}
+                                {/* // em mobile deixe display inline-block + marginleft */}
+                            <small className="resul">
+                                {emptyFile ? 
+                                <b style={{color: 'red', paddingTop: '30px'}}>Nada selecionado</b> 
+                                :
+                                fileMedia &&
+                                <b style={{color: 'green'}}><FiCheckCircle/> Basta clicar em “Salvar”</b>}
+                            </small>
+                            {/* // ) : (fileMedia && )} */}
+                            <br />
+                            <small>
+                                <em>Arquivos aceitos: imagem(<b>.jpg, .png</b>) e vídeo(<b>.mp4</b>).</em>
+                            </small>
+                        </div>   
+                        </div>
+                    ) : (
+                        <div className="midia">
+                        <div className="choice-file">
+                            <label>Arquivo: </label>
 
-                    <div className="info-file">
-                        <p>Mídia selecionda: <span>{fileMedia && fileMedia.name}</span></p> {/* Mandar na API o nome dentro no objeto */}
-                        <p>Tipo da mídia: {fileMedia && <span>{fileMedia.type === 'video/mp4' ? 'Vídeo' : 'Imagem'} (<b>{fileMedia.name.slice(-4)}</b>)</span>} </p>
-                        <p>Tamanho: <span>{fileMedia && fileMedia.size + " bytes"}</span></p>
-                    </div>
-                    </div>
+                            <label className="input-file">
+                                <a className="btn-file">
+                                    Escolher arquivo
+                                </a>
+                                <input
+                                    type="file"
+                                    // name="media"
+                                    accept='image/png, image/jpeg, video/mp4'
+                                    onChange={onChangeFile}
+                                    // style={{color: !fileMedia && 'red'}}
+                                />
+                            </label>
+                            {/* {hasFile ? ( */}
+                                {/* // em mobile deixe display inline-block + marginleft */}
+                            <small className="resul">
+                                {emptyFile ? 
+                                <b style={{color: 'red', paddingTop: '30px'}}>Nada selecionado</b> 
+                                :
+                                fileMedia &&
+                                <b style={{color: 'green'}}><FiCheckCircle/> Basta clicar em “Salvar”</b>}
+                            </small>
+                            {/* // ) : (fileMedia && )} */}
+                            <br />
+                            <small>
+                                <em>Arquivos aceitos: imagem(<b>.jpg, .png</b>) e vídeo(<b>.mp4</b>).</em>
+                            </small>
+                        </div>
+
+                        <div className="info-file">
+                            <p>Mídia selecionda: <span>{fileMedia && fileMedia.name}</span></p> {/* Mandar na API o nome dentro no objeto */}
+                            <p>Tipo da mídia: {fileMedia && <span>{fileMedia.type === 'video/mp4' ? 'Vídeo' : 'Imagem'} (<b>{fileMedia.name.slice(-4)}</b>)</span>} </p>
+                            <p>Tamanho: <span>{fileMedia && fileMedia.size + " bytes"}</span></p>
+                        </div>
+                        </div>
+                    )}
                 </div>                  
             </div>
 
@@ -190,5 +232,6 @@ export function ModalAdd({ closeModal, action, title, updateSequence }) {
 
 ModalAdd.propTypes = {
     closeModal: PropTypes.func.isRequired,
+    midiaEdit: PropTypes.object,
     updateSequence: PropTypes.func.isRequired
 }

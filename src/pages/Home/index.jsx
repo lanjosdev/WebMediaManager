@@ -33,6 +33,8 @@ export default function Home() {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
+    const [midiaSelecionada, setMidiaSelecionada] = useState(null);
+
     const reorder = (list, startIndex, endIndex) => {
         const result = [...list];
         const [removed] = result.splice(startIndex, 1);
@@ -143,6 +145,18 @@ export default function Home() {
         setMidias(newLista);
     }
 
+    function callModalAddMidia() {
+        setMidiaSelecionada(null);
+
+        setModalIsOpen(true);
+    }
+
+    function callModalEditMidia(midiaDetails) {
+        setMidiaSelecionada(midiaDetails);
+
+        setModalIsOpen(true);
+    }
+
 
     return (
         <DragDropContext
@@ -234,7 +248,7 @@ export default function Home() {
                                 <div className='cabecalho-painel'>
                                     <h2>Lista de mídias</h2>
                                     {midias.length !== 0 && 
-                                    <button className="add-midia" onClick={()=> setModalIsOpen(true)}>+ Add mídia</button>}
+                                    <button className="add-midia" onClick={callModalAddMidia}>+ Add mídia</button>}
                                 </div>
 
                                 <div className="content-painel">
@@ -272,7 +286,11 @@ export default function Home() {
                                             {...draggableProvided.dragHandleProps}
                                             className="item-midia"
                                         >
-                                            <div className={midia.checked === 1 ? "item-content ativa" : "item-content"}>
+                                            <div 
+                                                className={midia.checked === 1 ? "item-content ativa" : "item-content"} 
+                                                onClick={()=> callModalEditMidia(midia)}
+                                                title="Clique p/ editar"
+                                            >
                                                 {midia.checked === 0 && (
                                                     <div className="midia-disable">
                                                         <span>Mídia desativada</span>
@@ -314,7 +332,8 @@ export default function Home() {
             {modalIsOpen && <ModalAdd
                                 closeModal={()=> setModalIsOpen(false)}
                                 action='add'
-                                title='Adicionando mídia'
+                                // title='Adicionando mídia'
+                                midiaEdit={midiaSelecionada}
             />}
 
         </div>
