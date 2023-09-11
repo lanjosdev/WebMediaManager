@@ -107,7 +107,7 @@ export default function Home() {
                 //await Carrega Midias de acordo com id do projeto (padrao o 1° q carrega):
                 let listaMidias = [];
                 // setTimeout(()=> {
-                setProjetoSelecionado(listaProjetos[0].id);
+                // setProjetoSelecionado(listaProjetos[0].id);
                 listaMidias = carregaMidiasProjetc(listaProjetos[0].id);
                 // }, 1500);
                 
@@ -145,6 +145,30 @@ export default function Home() {
 
 
     return (
+        <DragDropContext
+            onDragEnd={(result) => {
+                const { source, destination } = result;
+                if (!destination) {
+                return;
+                }
+                if (
+                source.index === destination.index &&
+                source.droppableId === destination.droppableId
+                ) {
+                return;
+                }
+
+                // setListaMidias((prevMidias) =>
+                //   reorder(prevMidias, source.index, destination.index)
+                // );
+                let newOrder = reorder(midias, source.index, destination.index);
+                console.log(newOrder);
+
+                setMidias(newOrder);
+                // dragUpdateSequence(newOrder);
+            }}
+        >
+
         <div className='Container'>
 
             <Header userLevel={userDetails.loglevel} logout={logoutUser} />
@@ -179,8 +203,8 @@ export default function Home() {
                                     value={projetoSelecionado}
                                     onChange={selectCarregaMidias}
                                 >
-                                    {projetos.map((projeto, idx)=> (
-                                        <option key={idx} value={projeto.id} title={projeto.id}>
+                                    {projetos.map((projeto)=> (
+                                        <option key={projeto.id} value={projeto.id} title={projeto.id}>
                                             {projeto.nomeProjeto}
                                         </option>
                                     ))}
@@ -210,7 +234,7 @@ export default function Home() {
                                 <div className='cabecalho-painel'>
                                     <h2>Lista de mídias</h2>
                                     {midias.length !== 0 && 
-                                    <button className="add-midia">+ Add mídia</button>}
+                                    <button className="add-midia" onClick={()=> setModalIsOpen(true)}>+ Add mídia</button>}
                                 </div>
 
                                 <div className="content-painel">
@@ -221,7 +245,7 @@ export default function Home() {
                                         <p>
                                             Nenhuma mídia foi adicionada!
                                         </p>
-                                        <button className="add-midia">
+                                        <button className="add-midia" onClick={()=> setModalIsOpen(true)}>
                                             + Add mídia
                                         </button>
                                     </div>
@@ -232,10 +256,20 @@ export default function Home() {
                                         Basta arrastar e soltar as mídias para ordernar a sequência de exibição:
                                     </p>
 
-                                    <ul className="list-midias">
+                                    <Droppable droppableId="list-midias" direction="horizontal">
+                                    {(droppableProvided) => (
+                                    <ul 
+                                        {...droppableProvided.droppableProps}
+                                        ref={droppableProvided.innerRef}
+                                        className="list-midias"
+                                    >
                                         {midias.map((midia, idx)=> (
+                                        <Draggable key={midia.id} draggableId={String(midia.id)} index={idx}>
+                                        {(draggableProvided) => (
                                         <li 
-                                            key={midia.id} 
+                                            {...draggableProvided.draggableProps}
+                                            ref={draggableProvided.innerRef}
+                                            {...draggableProvided.dragHandleProps}
                                             className="item-midia"
                                         >
                                             <div className={midia.checked === 1 ? "item-content ativa" : "item-content"}>
@@ -247,7 +281,7 @@ export default function Home() {
                                                 <img src={midia.media_thumb
 } alt="seila" />
                                                 <div className="item-indice">
-                                                    <p>{idx + 1 + ""}</p>
+                                                    <p>{idx + 1 + "º"}</p>
                                                     <span>{midia.media_type === 1 ? <MdImage/> : <MdVideoLibrary/>}</span>
                                                 </div>
                                             </div>
@@ -259,8 +293,12 @@ export default function Home() {
                                                 title="Ativa/Desativa" 
                                             />
                                         </li>
+                                        )}
+                                        </Draggable>
                                         ))}
                                     </ul>
+                                    )}
+                                    </Droppable>
                                     </>
                                 )}
                                 </div>
@@ -275,8 +313,12 @@ export default function Home() {
 
             {modalIsOpen && <ModalAdd
                                 closeModal={()=> setModalIsOpen(false)}
+                                action='add'
+                                title='Adicionando mídia'
             />}
 
         </div>
+
+        </DragDropContext>
     );
 }
