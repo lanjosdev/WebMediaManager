@@ -20,11 +20,11 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
 
     const [emptyFile, setEmpetyFile] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const [callDelete, setCallDelete] = useState(false);
     const [loadingDel, setLoadingDel] = useState(false);
 
-    console.log(midiaEdit);
-
-    // const token = Cookies.get('token');
+    // const formato = file.slice(-4);
 
     function onChangeFile(e) {
         if(e.target.files[0]) {
@@ -59,6 +59,11 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
         e.preventDefault();
 
         if(fileMedia === null) {
+            if(midiaEdit) {
+                closeModal();
+                return;
+            }
+
             !emptyFile && toast.warn('Selecione um arquivo antes de enviar!');
             setEmpetyFile(true);
             return;
@@ -85,9 +90,20 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
             // console.log(fileMedia.type);
             console.log('ENVIOU');
             console.log(fileMedia);
+
+            if(midiaEdit) {
+                toast.success('Mídia substituida!');
+            } else {
+                toast.success('Mídia salva com sucesso!');
+            }
+            closeModal();
         }
          
         setLoading(false);
+    }
+
+    function handleDeleteMedia(idMedia) {
+        toast.success(`Deletou midia id: ${idMedia}`);     
     }
 
     return (
@@ -234,9 +250,9 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
                         </div>
 
                         <div className="info-file">
-                            <p>Mídia selecionda: <span>{fileMedia && fileMedia.name}</span></p> {/* Mandar na API o nome dentro no objeto */}
-                            <p>Tipo da mídia: {fileMedia && <span>{fileMedia.type === 'video/mp4' ? 'Vídeo' : 'Imagem'} (<b>{fileMedia.name.slice(-4)}</b>)</span>} </p>
-                            <p>Tamanho: <span>{fileMedia && fileMedia.size + " bytes"}</span></p>
+                            <p>Mídia selecionda: <span>{fileMedia ? fileMedia.name : '(vazio)'}</span></p> {/* Mandar na API o nome dentro no objeto */}
+                            <p>Tipo da mídia: {fileMedia ? <span>{fileMedia.type === 'video/mp4' ? 'Vídeo' : 'Imagem'} (<b>{fileMedia.name.slice(-4)}</b>)</span> : <span>(vazio)</span>}</p>
+                            <p>Tamanho: <span>{fileMedia ? fileMedia.size + " bytes" : '(vazio)'}</span></p>
                         </div>
                         </div>
                     )}
@@ -247,12 +263,30 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
                 <a className='btn-cancel' onClick={closeModal}>Cancelar</a>
 
                 {midiaEdit &&
-                <a className='btn-delete'>{loadingDel ? 'Excluindo...' : 'Excluir'}</a>
+                <a 
+                    className='btn-delete'
+                    onClick={() => setCallDelete(true)}
+                >
+                    {loadingDel ? 'Excluindo...' : 'Excluir'}
+                </a>
                 }
 
                 <button type='submit' className='btn-upload' disabled={emptyFile}>{loading ? 'Carregando...' : 'Salvar'}</button>
             </div>
 
+
+            {callDelete && (
+                <div className="modal-background-delete">
+                    <div className="modal-delete">
+                        <h3>Certeza que deseja excluir?</h3>
+                        <div>
+                            <button className="btn-yes" onClick={()=> handleDeleteMedia(midiaEdit.id)}>Sim</button>
+                            <button onClick={() => setCallDelete(false)}>Não</button>
+                        </div>
+                    </div>
+                </div>
+                
+            )}
         </form>
         
         </div>
