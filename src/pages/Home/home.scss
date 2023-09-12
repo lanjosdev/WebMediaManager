@@ -30,11 +30,16 @@ main.page-content {
             max-width: 25rem;
             height: 3rem;
             border-radius: 5px;
+            box-shadow: 0 1px 4px 1px rgba(49, 49, 49, 0.452);
+            
             padding: 0 .4rem;
             vertical-align: middle;
 
+            transition: all .3s ease-in-out;
+
             &:hover {
                 cursor: pointer;
+                box-shadow: 0px 1px 7px 2px $color-main;
             }
         }
     }
@@ -122,7 +127,7 @@ main.page-content {
 
                         &.ativa {
                             background-color: $white;
-                            color: $color-main;
+                            // color: $color-main;
 
                             img {
                                 background-color: $color-bgsecundary;
@@ -134,7 +139,7 @@ main.page-content {
                         }
                         &:active {
                             // filter: brightness(0.85);
-                            box-shadow: 0px 0px 0px 2px $color-main, 0px 1px 15px 10px rgba(49, 49, 49, 0.6);
+                            box-shadow: 0px 0px 0px 2px $color-main, 0px 1px 7px 3px $color-main;
                             // opacity: 0.8;
                         }
 

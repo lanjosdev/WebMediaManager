@@ -7,7 +7,7 @@ import { UserContext } from "../../contexts/userContext";
 
 // Components:
 import { Header } from '../../components/Header';
-import { ModalAdd } from "../../components/Modal/ModalMedia/modalAdd";
+import { ModalMedia } from "../../components/Modal/ModalMedia/modalMedia";
 
 // Assets:
 import { MdImage, MdVideoLibrary } from 'react-icons/md';
@@ -20,7 +20,7 @@ export default function Home() {
     const {
         userDetails, 
         logoutUser, 
-        carregaProjetosAutorizados,
+        // carregaProjetosAutorizados,
         carregaMidiasProjetc,
     } = useContext(UserContext);
     // console.log(userDetails);
@@ -329,7 +329,7 @@ export default function Home() {
                 </div>
             </main> 
 
-            {modalIsOpen && <ModalAdd
+            {modalIsOpen && <ModalMedia
                                 closeModal={()=> setModalIsOpen(false)}
                                 action='add'
                                 // title='Adicionando mídia'

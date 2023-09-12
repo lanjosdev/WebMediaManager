@@ -14,12 +14,13 @@ import { FiX, FiCheckCircle } from 'react-icons/fi';
 import './modal.scss';
 
 
-export function ModalAdd({ closeModal, midiaEdit, updateSequence }) {
+export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
     const [fileMedia, setFileMedia] = useState(null);
     const [fileUrl, setFileUrl] = useState(null);
 
     const [emptyFile, setEmpetyFile] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [loadingDel, setLoadingDel] = useState(false);
 
     console.log(midiaEdit);
 
@@ -95,7 +96,9 @@ export function ModalAdd({ closeModal, midiaEdit, updateSequence }) {
         <div className="modal-background" onClick={closeModal}></div>
 
         <form className="modal-window" onSubmit={handleAddMedia}>
-            <a className='btn-close' onClick={closeModal} title="Fechar"><FiX/></a>
+            <a className='btn-close' onClick={closeModal} title="Fechar">
+                <FiX/>
+            </a>
             
             <h2>{midiaEdit ? 'Editar mídia' : 'Adicionando mídia'}</h2>
 
@@ -103,17 +106,29 @@ export function ModalAdd({ closeModal, midiaEdit, updateSequence }) {
                 <div className="preview">
                     <h3>Preview:</h3>
 
-                    {/* ou se tem midia ai executa modal edit */}
                     {midiaEdit ? (
-                        <>
-                        {midiaEdit.media_type === 1 ? (
-                            <img src={midiaEdit.media_thumb} alt="" />
+                        fileMedia ? (
+                            fileMedia.type === 'video/mp4' ? (
+                                <video controls>
+                                    <source src={fileUrl} type="video/mp4" />
+                                </video>
+                            ) : (
+                                <img
+                                    src={fileUrl}
+                                    alt="Thumb ilustrativa"
+                                />
+                            )
                         ) : (
-                            <video controls>
-                                <source src={midiaEdit.media_thumb} type="video/mp4" />
-                            </video>
-                        )} 
-                        </>    
+                            <>
+                            {midiaEdit.media_type === 1 ? (
+                                <img src={midiaEdit.media_thumb} alt="" />
+                            ) : (
+                                <video controls>
+                                    <source src={midiaEdit.media_thumb} type="video/mp4" />
+                                </video>
+                            )} 
+                            </>
+                        )
                     ) : (
                         !fileUrl ? (
                             <div className="sem-arquivo"><span>Nenhum arquivo selecionado!</span></div>
@@ -139,9 +154,19 @@ export function ModalAdd({ closeModal, midiaEdit, updateSequence }) {
                     {midiaEdit ? (
                         <div className="midia edit">
                         <div className="info-file">
-                            {/* <p>Mídia selecionda: <span>{fileMedia && fileMedia.name}</span></p> Mandar na API o nome dentro no objeto */}
-                            <p>Tipo da mídia: <span>{midiaEdit.media_type === 1 ? 'Imagem' : 'Vídeo'} (<b>formato aqui</b>)</span> </p>
-                            <p>Dimensões: <span>{midiaEdit.media_dimensions}</span></p>
+                            {fileMedia ? (
+                                <>
+                                <p>Mídia selecionda: <span>{fileMedia && fileMedia.name}</span></p> {/* Mandar na API o nome dentro no objeto */}
+                                <p>Tipo da mídia: {fileMedia && <span>{fileMedia.type === 'video/mp4' ? 'Vídeo' : 'Imagem'} (<b>{fileMedia.name.slice(-4)}</b>)</span>} </p>
+                                <p>Tamanho: <span>{fileMedia && fileMedia.size + " bytes"}</span></p>                                
+                                </>
+                            ) : (
+                                <>
+                                {/* <p>Mídia selecionda: <span>{fileMedia && fileMedia.name}</span></p> Mandar na API o nome dentro no objeto */}
+                                <p>Tipo da mídia: <span>{midiaEdit.media_type === 1 ? 'Imagem' : 'Vídeo'} (<b>formato aqui</b>)</span> </p>
+                                <p>Dimensões: <span>{midiaEdit.media_dimensions}</span></p>
+                                </>
+                            )}
                         </div>
 
                         <div className="choice-file">
@@ -220,8 +245,12 @@ export function ModalAdd({ closeModal, midiaEdit, updateSequence }) {
 
             <div className="actions-btn">
                 <a className='btn-cancel' onClick={closeModal}>Cancelar</a>
+
+                {midiaEdit &&
+                <a className='btn-delete'>{loadingDel ? 'Excluindo...' : 'Excluir'}</a>
+                }
+
                 <button type='submit' className='btn-upload' disabled={emptyFile}>{loading ? 'Carregando...' : 'Salvar'}</button>
-                {/* btn delete com condicional para editmodal */}
             </div>
 
         </form>
@@ -230,7 +259,7 @@ export function ModalAdd({ closeModal, midiaEdit, updateSequence }) {
     );
 }
 
-ModalAdd.propTypes = {
+ModalMedia.propTypes = {
     closeModal: PropTypes.func.isRequired,
     midiaEdit: PropTypes.object,
     updateSequence: PropTypes.func.isRequired
