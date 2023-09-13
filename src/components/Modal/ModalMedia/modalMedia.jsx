@@ -94,7 +94,7 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
             if(midiaEdit) {
                 toast.success('Mídia substituida!');
             } else {
-                toast.success('Mídia salva com sucesso!');
+                toast.success('Mídia adicionada com sucesso!');
             }
             closeModal();
         }
@@ -147,7 +147,7 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
                         )
                     ) : (
                         !fileUrl ? (
-                            <div className="sem-arquivo"><span>Nenhum arquivo selecionado!</span></div>
+                            <div className="sem-arquivo"><span>(Nenhum arquivo selecionado)</span></div>
                         ) : (
                             fileMedia.type === 'video/mp4' ? (
                                 <video controls>

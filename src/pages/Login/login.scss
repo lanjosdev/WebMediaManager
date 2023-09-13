@@ -8,35 +8,49 @@ main.Login-container {
     align-items: center;
     
     .grid {        
-        max-width: 440px;
+        max-width: 900px;
+
+        display: flex;
+        justify-content: center;
     }
 
-    h1 {
-        line-height: 0;
-        margin: auto;
-        margin-bottom: 5rem;
-
+    .cabecalho-form {
         width: 100%;
         max-width: 350px;
 
-        img {
-            width: 100%;
-        }
-    }
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
-    .grid > p {
-        text-align: center;
-        font-size: 3.2rem;
-        font-weight: 700;
-        line-height: 150%; /* 54px */
-        letter-spacing: -0.36px;
-        margin-bottom: 1.5rem;
+        div {
+            width: 100%;
+            max-width: 200px;
+            line-height: 0;
+
+            margin-bottom: 5rem;
+    
+            img {
+                width: 100%;
+            }
+        }
+
+        h1 {
+            // font-size: 3.2rem;
+            line-height: 150%; /* 54px */
+            letter-spacing: -0.36px;
+
+            margin-bottom: 1.5rem;
+        }
     }
 
     form {
         background-color: $color-bgsecundary;
         border-radius: 10px;
         padding: 6rem 4rem;
+
+        width: 100%;
+        min-width: 430px;
+        max-width: 440px;
 
         display: flex;
         flex-direction: column;
@@ -99,16 +113,47 @@ main.Login-container {
 
 
     // RESPONSIVIDADE:
+    @media screen and (max-width: 767px) {
+        .grid {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cabecalho-form {
+            max-width: 440px; 
+        }
+
+        form {    
+            min-width: 250px;
+        }
+    }
+
     /* Mobile geral */
     @media screen and (max-width: 480px) {
-        h1 {
-            max-width: 300px;
+        .grid {
+            position: relative;
+            top: -5px;
+        }
+
+        .cabecalho-form {
+            div {
+                animation: showLogo .5s ease-in-out;
+            }
         }
 
         form {
             padding: 4.5rem 4rem;
         }
+    }
 
+    // ANIMAÇÕES:
+    @keyframes showLogo {
+        0% {
+            transform: scale(.6);
+        }
+        100% {
+            transform: scale(1);
+        }
     }
 }
 

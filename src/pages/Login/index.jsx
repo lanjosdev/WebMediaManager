@@ -51,8 +51,10 @@ export default function Login() {
     <main className='Login-container'>
       <div className="grid fadeIn">
 
-        <h1> <img src={Logo} alt="Logotipo" /> </h1>
-        <p>Faça seu login no ambiente</p>
+        <div className="cabecalho-form">
+          <div> <img src={Logo} alt="Logotipo" /> </div>
+          <h1>Faça seu login no ambiente</h1>
+        </div>
 
         <form onSubmit={handleSubmitLogin} autoComplete="off">
           <div className="input-div">
