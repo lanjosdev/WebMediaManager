@@ -30,10 +30,12 @@ export default function Home() {
 
     const [loadingMidias, setLoadingMidias] = useState(true);
     const [midias, setMidias] = useState([]);
-
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [emptyMidias, setEmptyMidias] = useState(false);
+    const [lastIndiceMidia, setLastIndiceMidia] = useState(4);
 
     const [midiaSelecionada, setMidiaSelecionada] = useState(null);
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const reorder = (list, startIndex, endIndex) => {
         const result = [...list];
@@ -103,23 +105,74 @@ export default function Home() {
                 })
                 
                 setProjetos(listaProjetos);
-                
                 setLoadingProjetos(false);
+
 
                 //await Carrega Midias de acordo com id do projeto (padrao o 1° q carrega):
                 let listaMidias = [];
                 // setTimeout(()=> {
-                // setProjetoSelecionado(listaProjetos[0].id);
+                setProjetoSelecionado(listaProjetos[0].id);
                 listaMidias = carregaMidiasProjetc(listaProjetos[0].id);
                 // }, 1500);
                 
-                setMidias(listaMidias);
+                // vai puxar 4 itens da listaMidias
+                let rangeList = [];
+                for(let idx = 0; idx <= 4; idx++) {
+                    if(listaMidias[idx]) {
+                        if(idx < 4) {
+                            rangeList.push(listaMidias[idx]);
+                        }
+                    } else {
+                        setEmptyMidias(true);
+                        break;
+                    }                                                   
+                }
+
+                updateMidias(rangeList);             
+
                 setLoadingMidias(false);
             }, 1500);
             // })           
         }
         carregaProjetos();
     }, [userDetails, carregaMidiasProjetc]);
+
+    function updateMidias(rangeList) {
+        
+        const isMidiasEmpty = rangeList.length === 0; // true OR false
+
+        if(isMidiasEmpty) {
+            setEmptyMidias(true);            
+        } else {
+            // let lastIndice = rangeList.length;
+
+            setMidias(midias => [...midias, ...rangeList]);
+            // setLastIndiceMidia(4);
+        }
+    }
+
+    function handleMostraMore() {
+        let listaMidias = [];
+                
+        listaMidias = carregaMidiasProjetc(projetoSelecionado);
+                
+        // vai puxar 4 itens da listaMidias
+        let listRange = [];
+        for(let idx = lastIndiceMidia; idx <= lastIndiceMidia + 4; idx++) {
+            if(listaMidias[idx]) {
+                if(idx < lastIndiceMidia + 4) {
+                    listRange.push(listaMidias[idx]);
+                }
+            } else {
+                setEmptyMidias(true);
+                break;
+            }                                                   
+        }
+
+        setLastIndiceMidia(lastIndiceMidia + 4);
+        updateMidias(listRange);
+    }
+
 
     function selectCarregaMidias(e) {
         setProjetoSelecionado(e.target.value);
@@ -317,6 +370,15 @@ export default function Home() {
                                     </ul>
                                     )}
                                     </Droppable>
+
+                                    {!emptyMidias && (
+                                        <button
+                                            className='btn-more'
+                                            onClick={handleMostraMore}
+                                        >
+                                            Mostrar mais mídias
+                                        </button>
+                                    )}
                                     </>
                                 )}
                                 </div>

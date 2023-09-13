@@ -206,6 +206,20 @@ main.page-content {
                     }
                 }
             }
+
+            .btn-more {
+                background-color: $color-main;
+                display: block;
+                margin: 0 auto;
+                margin-top: 2rem;
+
+                color: $white;
+                font-weight: 600;
+                font-size: 1.6rem;
+                padding: .3rem 1rem;
+
+                border-radius: 5px;
+            }
         }
     }
 
