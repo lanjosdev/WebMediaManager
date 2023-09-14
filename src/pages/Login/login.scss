@@ -16,7 +16,7 @@ main.Login-container {
 
     .cabecalho-form {
         width: 100%;
-        max-width: 350px;
+        max-width: 390px;
 
         display: flex;
         flex-direction: column;
@@ -35,7 +35,7 @@ main.Login-container {
         }
 
         h1 {
-            // font-size: 3.2rem;
+            font-size: 3.8rem;
             line-height: 150%; /* 54px */
             letter-spacing: -0.36px;
 
@@ -138,6 +138,10 @@ main.Login-container {
         .cabecalho-form {
             div {
                 animation: showLogo .5s ease-in-out;
+            }
+
+            h1 {
+                font-size: 3.2rem;
             }
         }
 

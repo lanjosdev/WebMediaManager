@@ -136,7 +136,7 @@ body, input, textarea, button, select, a {
 @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px);
     }
     to {
       opacity: 1;
@@ -145,6 +145,6 @@ body, input, textarea, button, select, a {
 }
   
 .fadeIn {
-    animation: fadeIn .4s ease;
+    animation: fadeIn .5s ease;
 }
 /* ANIMATIONS */

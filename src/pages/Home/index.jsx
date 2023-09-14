@@ -30,8 +30,8 @@ export default function Home() {
 
     const [loadingMidias, setLoadingMidias] = useState(true);
     const [midias, setMidias] = useState([]);
-    const [emptyMidias, setEmptyMidias] = useState(false);
-    const [lastIndiceMidia, setLastIndiceMidia] = useState(4);
+    // const [emptyMidias, setEmptyMidias] = useState(false);
+    // const [lastIndiceMidia, setLastIndiceMidia] = useState(4);
 
     const [midiaSelecionada, setMidiaSelecionada] = useState(null);
 
@@ -116,20 +116,19 @@ export default function Home() {
                 // }, 1500);
                 
                 // vai puxar 4 itens da listaMidias
-                let rangeList = [];
-                for(let idx = 0; idx <= 4; idx++) {
-                    if(listaMidias[idx]) {
-                        if(idx < 4) {
-                            rangeList.push(listaMidias[idx]);
-                        }
-                    } else {
-                        setEmptyMidias(true);
-                        break;
-                    }                                                   
-                }
+                // let rangeList = [];
+                // for(let idx = 0; idx <= 4; idx++) {
+                //     if(listaMidias[idx]) {
+                //         if(idx < 4) {
+                //             rangeList.push(listaMidias[idx]);
+                //         }
+                //     } else {
+                //         setEmptyMidias(true);
+                //         break;
+                //     }                                                   
+                // }
 
-                updateMidias(rangeList);             
-
+                updateMidias(listaMidias);             
                 setLoadingMidias(false);
             }, 1500);
             // })           
@@ -138,41 +137,40 @@ export default function Home() {
     }, [userDetails, carregaMidiasProjetc]);
 
     function updateMidias(rangeList) {
-        
-        const isMidiasEmpty = rangeList.length === 0; // true OR false
+        setMidias(rangeList);
+        // const isMidiasEmpty = rangeList.length === 0; // true OR false
 
-        if(isMidiasEmpty) {
-            setEmptyMidias(true);            
-        } else {
-            // let lastIndice = rangeList.length;
+        // if(isMidiasEmpty) {
+        //     setEmptyMidias(true);            
+        // } else {
+        //     // let lastIndice = rangeList.length;
 
-            setMidias(midias => [...midias, ...rangeList]);
-            // setLastIndiceMidia(4);
-        }
+        //     setMidias(midias => [...midias, ...rangeList]);
+        //     // setLastIndiceMidia(4);
+        // }
     }
 
-    function handleMostraMore() {
-        let listaMidias = [];
+    // function handleMostraMore() {
+    //     let listaMidias = [];
                 
-        listaMidias = carregaMidiasProjetc(projetoSelecionado);
+    //     listaMidias = carregaMidiasProjetc(projetoSelecionado);
                 
-        // vai puxar 4 itens da listaMidias
-        let listRange = [];
-        for(let idx = lastIndiceMidia; idx <= lastIndiceMidia + 4; idx++) {
-            if(listaMidias[idx]) {
-                if(idx < lastIndiceMidia + 4) {
-                    listRange.push(listaMidias[idx]);
-                }
-            } else {
-                setEmptyMidias(true);
-                break;
-            }                                                   
-        }
+    //     // vai puxar 4 itens da listaMidias
+    //     let listRange = [];
+    //     for(let idx = lastIndiceMidia; idx <= lastIndiceMidia + 4; idx++) {
+    //         if(listaMidias[idx]) {
+    //             if(idx < lastIndiceMidia + 4) {
+    //                 listRange.push(listaMidias[idx]);
+    //             }
+    //         } else {
+    //             setEmptyMidias(true);
+    //             break;
+    //         }                                                   
+    //     }
 
-        setLastIndiceMidia(lastIndiceMidia + 4);
-        updateMidias(listRange);
-    }
-
+    //     setLastIndiceMidia(lastIndiceMidia + 4);
+    //     updateMidias(listRange);
+    // }
 
     function selectCarregaMidias(e) {
         setProjetoSelecionado(e.target.value);
@@ -371,14 +369,14 @@ export default function Home() {
                                     )}
                                     </Droppable>
 
-                                    {!emptyMidias && (
+                                    {/* {!emptyMidias && (
                                         <button
                                             className='btn-more'
                                             onClick={handleMostraMore}
                                         >
                                             Mostrar mais mídias
                                         </button>
-                                    )}
+                                    )} */}
                                     </>
                                 )}
                                 </div>
