@@ -27,7 +27,7 @@ export function Header({ userLevel, logout }) {
                 </Link>
 
                 {userLevel === 100 && 
-                <nav>
+                <nav className="menu-desktop">
                     <ul>
                         <li>
                             <NavLink to='/home'>Home</NavLink>

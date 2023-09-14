@@ -29,7 +29,7 @@ export default function Login() {
     function checkUserLogado() {
       const userCookie = Cookies.get('userLocal');
       if(userCookie) {
-        navigate('/home'); //Será checkado a valida do token ao passar no userContenxt
+        navigate('/home'); //Será checkado a validade do token ao passar no userContenxt
       } 
     } 
     checkUserLogado();

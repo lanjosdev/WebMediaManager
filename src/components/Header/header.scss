@@ -31,14 +31,17 @@ header.Header-container {
         }
     }
 
-    nav {
+    nav.menu-desktop {
+        position: relative;
+        left: -15px;
+
         ul {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
 
             li a {
                 background-color: transparent;
-                padding: .5rem 1.2rem .7rem;
+                padding: .4rem 1.2rem .5rem;
                 border-radius: 5px;
 
                 font-size: 2rem;
@@ -48,7 +51,7 @@ header.Header-container {
                 transition: all .3s ease-in-out;
 
                 &.active {
-                    background-color: $color-main;
+                    background-color: $color-secundary;
                     color: $white;
                 }
                 
@@ -62,7 +65,7 @@ header.Header-container {
 
     .btn-logout {
         background-color: transparent;
-        padding: .6rem 1.2rem;
+        padding: .4rem 1.2rem .5rem;
         border-radius: 5px;
         
         color: $color-text;
@@ -78,6 +81,26 @@ header.Header-container {
 
         &:hover {
             background-color: $white;
+        }
+    }
+
+
+    // RESPONSIVIDADE:
+    /* Tablets */
+    @media screen and (max-width: 767px) {
+        nav.menu-desktop {
+            left: 0;
+        }
+    }
+
+    /* Tablets baixa resolução */
+    @media screen and (max-width: 600px) {
+        nav.menu-desktop {
+            display: none;
+        }    
+        
+        .btn-logout {
+            display: none;
         }
     }
 

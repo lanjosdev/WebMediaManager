@@ -11,7 +11,7 @@ import './privateRoute.scss';
 
 
 export default function PrivateRoute({ children }) {
-    const { loadingRoute, logado } = useContext(UserContext);
+    const { loadingRoute, logado, userDetails } = useContext(UserContext);
 
     return (
         <>
@@ -21,7 +21,17 @@ export default function PrivateRoute({ children }) {
             </div>
         ) : (
             logado ? (
-                children
+
+                children[1].type.name === 'Home' ? (
+                    children
+                ) : (
+                    userDetails.loglevel === 100 ? (
+                        children
+                    ) : (
+                        <Navigate to='/home' />
+                    )
+                )
+                                
             ) : (
                 <Navigate to='/' />
             )
