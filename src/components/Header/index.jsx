@@ -41,7 +41,7 @@ export function Header({ userLevel, logout }) {
                     </ul>
                 </nav>}                
 
-                <button className='btn-logout' onClick={handleClickLogout}>
+                <button className={userLevel === 100 ? 'btn-logout adm' : 'btn-logout'} onClick={handleClickLogout}>
                     <span>Sair</span><TbLogout/>
                 </button>
 

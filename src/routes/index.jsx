@@ -16,14 +16,17 @@ export function AppRoutes() {
             <Route path="/" element={ <Login/> } />
 
             {/* HOME - MEDIAS */}
-            <Route path="/home" element={ 
-                <PrivateRoute> <Home/> </PrivateRoute>
+            <Route path="/home" element={
+                <PrivateRoute path="/home" element={<Home/>} />
             } />
             {/* HOME - MEDIAS */}
 
             {/* PROJETOS */}
-            <Route path="/projetos" element={ 
+            {/* <Route path="/projetos" element={ 
                 <PrivateRoute> <Projetos/> </PrivateRoute>
+            } /> */}
+            <Route path="/projetos" element={
+                <PrivateRoute path="/projetos" element={<Projetos/>} />
             } />
             {/* PROJETOS */}
 

@@ -10,9 +10,12 @@ import { UserContext } from '../contexts/userContext';
 import './privateRoute.scss';
 
 
-export default function PrivateRoute({ children }) {
-    const { loadingRoute, logado, userDetails } = useContext(UserContext);
-    console.log(children[1].type.name);
+export default function PrivateRoute({ path, element }) {
+    const {loadingRoute, logado, userDetails} = useContext(UserContext);
+
+    // if (logado === true) return <Route {...props}></Route>;
+    // else if (logado === false) return <Navigate to="/" />;
+    // else return null;
 
     return (
         <>
@@ -23,11 +26,11 @@ export default function PrivateRoute({ children }) {
         ) : (
             logado ? (
 
-                children[1].type.name === 'Home' ? (
-                    children
+                path === '/home' ? (
+                    element
                 ) : (
                     userDetails.loglevel === 100 ? (
-                        children
+                        element
                     ) : (
                         <Navigate to='/home' />
                     )
@@ -42,5 +45,7 @@ export default function PrivateRoute({ children }) {
 }
 
 PrivateRoute.propTypes = {
-    children: PropTypes.array.isRequired,
+    // children: PropTypes.array.isRequired,
+    element: PropTypes.object.isRequired,
+    path: PropTypes.string.isRequired,
 }
