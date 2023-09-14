@@ -12,6 +12,7 @@ import './privateRoute.scss';
 
 export default function PrivateRoute({ children }) {
     const { loadingRoute, logado, userDetails } = useContext(UserContext);
+    console.log(children[1].type.name);
 
     return (
         <>
