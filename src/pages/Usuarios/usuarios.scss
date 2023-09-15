@@ -1,0 +1,118 @@
+@import '../../styles/global.scss';
+
+main.page-content {
+    
+    .campo-pesquisa {
+        margin-bottom: 1.5rem;
+
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        label {
+            font-size: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .div-input {
+            position:relative;
+            width: 100%;
+            max-width: fit-content;
+            // display: inline-block;
+            // margin-left: 1rem;
+
+            input {
+                font-size: 1.5rem;                
+    
+                width: 100%;
+                min-width: 250px;
+                max-width: 280px;
+                height: 3rem;
+                border-radius: 5px;
+                box-shadow: 0 1px 4px 1px rgba(49, 49, 49, 0.452);
+                
+                padding: 0 2.7rem 0 .7rem;                
+    
+                transition: all .3s ease-in-out;
+    
+                &:hover {
+                    cursor: pointer;
+                    box-shadow: 0px 1px 7px 2px $color-main;
+                }
+                &:focus {
+                    box-shadow: 0 0 0 2px #5d9cdf, 0 0 0 5px #A0BDDD;
+                }
+            }
+
+            svg {
+                position: absolute;
+                right: .7rem;
+                top: .6rem;
+            }
+        }
+    }
+
+    .painel-table {
+        background-color: $color-bgsecundary;
+        // width: 100%;
+        padding: 2rem;
+        border-radius: 10px;
+
+        p.loading-usuarios {
+            font-size: 1.6rem;
+            text-align: center;
+            padding: 8rem 0;
+        }
+
+        .cabecalho-painel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 5px;
+        }
+        button.add-user {
+            @include style-btn(4rem, $color-main, 1.6rem, $white);
+            font-weight: 600;
+            padding: 0 3rem;
+            border-radius: 10px;
+
+            transition: all .3s ease-in-out;
+
+            &:hover {
+                box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
+            }
+        }
+
+        .content-painel {
+            .not-users {
+                text-align: center;
+                padding: 4rem 0;
+    
+                p {
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    line-height: 150%; /* 30px */
+                    letter-spacing: -0.2px;
+    
+                    margin-bottom: .5rem;
+                }
+            }
+
+            table {
+                margin-top: 25px;
+                width: 100% ////;
+            }
+        }
+    }
+
+
+    // RESPONSIVIDADE:
+    @media screen and (max-width: 480px) {
+           
+    }
+
+}
