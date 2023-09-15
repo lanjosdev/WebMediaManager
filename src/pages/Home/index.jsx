@@ -19,7 +19,6 @@ import './home.scss';
 export default function Home() {
     const {
         userDetails, 
-        logoutUser, 
         // carregaProjetosAutorizados,
         carregaMidiasProjetc,
     } = useContext(UserContext);
@@ -236,7 +235,7 @@ export default function Home() {
 
         <div className='Container'>
 
-            <Header userLevel={userDetails.loglevel} logout={logoutUser} />
+            <Header />
 
             <main className="page-content">
                 <div className="grid">

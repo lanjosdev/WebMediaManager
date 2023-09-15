@@ -11,12 +11,11 @@ import './privateRoute.scss';
 
 
 export default function PrivateRoute({ path, element }) {
-    const {loadingRoute, logado, userDetails} = useContext(UserContext);
+    const { loadingRoute, logado, userDetails } = useContext(UserContext);
 
     // if (logado === true) return <Route {...props}></Route>;
     // else if (logado === false) return <Navigate to="/" />;
     // else return null;
-
     return (
         <>
         {loadingRoute ? (

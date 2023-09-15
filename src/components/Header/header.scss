@@ -84,6 +84,10 @@ header.Header-container {
         }
     }
 
+    .btn-menu {
+        display: none;
+    }
+
 
     // RESPONSIVIDADE:
     /* Tablets */
@@ -102,6 +106,132 @@ header.Header-container {
         .btn-logout.adm {
             display: none;
         }
+
+        .btn-menu {
+            background-color: $color-bgprimary;
+            padding: .5rem 1.2rem;
+            border-radius: 5px;
+            
+            color: $color-text;
+            // font-size: 2rem;
+            // font-weight: 600;
+            // line-height: 150%; /* 30px */
+
+            display: flex;
+            align-items: center;
+            // gap: .4rem;
+
+            transition: all .3s ease-in-out;
+
+            &:hover {
+                background-color: $white;
+            }
+        }
     }
 
+}
+
+div.side-background {
+    display: none;
+    background-color: rgba(35, 35, 35, 0.6);
+    backdrop-filter: blur(1px);
+
+    position: fixed;
+    // width: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 11;
+}
+aside.sidebar {
+    display: none;
+    @include spacing-lateral();
+    padding-top: 1.3rem;
+    background-color: $color-bgprimary;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 12;
+    height: 500px;
+    width: 100%;
+    max-width: 200px;
+
+    border-radius: 0 0 0 10px; 
+
+    text-align: right;
+    // overflow: hidden; 
+    .btn-closeside {
+        padding: .5rem 1.2rem;
+        border-radius: 5px;
+        
+        color: $color-text;
+        line-height: 0;
+
+        margin-bottom: 30px;
+
+        transition: all .3s ease-in-out;
+
+        &:hover {
+            background-color: $white;
+        }
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        li a {
+            background-color: transparent;
+            padding: .4rem 1.2rem .5rem;
+            border-radius: 5px;
+    
+            font-size: 2rem;
+            font-weight: 600;
+            line-height: 150%; /* 30px */
+    
+            transition: all .3s ease-in-out;
+    
+            &.active {
+                background-color: $color-secundary;
+                color: $white;
+            }
+            
+            &:hover {
+                background-color: $white;
+                color: $color-text;
+            }
+        }
+    }
+
+    .btn-logout {
+        padding: .4rem 1.2rem .5rem;
+        border-radius: 5px;
+        
+        color: $color-text;
+        font-size: 2rem;
+        font-weight: 600;
+        line-height: 150%; /* 30px */
+
+        display: flex;
+        align-items: center;
+        gap: .3rem;
+
+        position: absolute;
+        bottom: 2rem;
+        right: 15px;
+
+        transition: all .3s ease-in-out;
+
+        &:hover {
+            background-color: $white;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        padding-top: 1.3rem;
+        // height: 90vh;   
+        // max-width: 150px;    
+    }
 }

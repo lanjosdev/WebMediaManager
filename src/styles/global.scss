@@ -148,4 +148,19 @@ body, input, textarea, button, select, a {
 .fadeIn {
     animation: fadeIn .5s ease;
 }
+
+@keyframes showSidebar {
+    from {
+      opacity: 0;
+      transform: translateX(200px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+}
+  
+.showSidebar {
+    animation: showSidebar .3s ease-in-out;
+}
 /* ANIMATIONS */
