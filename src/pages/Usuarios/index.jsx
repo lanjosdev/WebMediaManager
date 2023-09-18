@@ -10,20 +10,45 @@ import { Header } from '../../components/Header';
 
 // Assets:
 import { FaUsers } from 'react-icons/fa';
-import { FiSearch } from 'react-icons/fi'
+import { FiSearch } from 'react-icons/fi';
+import { BiBlock } from 'react-icons/bi';
+
 
 // Estilo:
 import './usuarios.scss';
 
 
 export default function Usuarios() {
-    const [loadingUsers, setLoadingUsers] = useState(false); ///////////////
+    const [loadingUsers, setLoadingUsers] = useState(true);
     const [usuarios, setUsuarios] = useState([]);
 
     const {
         userDetails, 
+        buscaUsersAll,
         logoutUser, 
     } = useContext(UserContext);
+
+
+    useEffect(()=> {
+        function carregaUsuarios() {
+            let res = [];
+
+            setTimeout(()=> {
+
+            res = buscaUsersAll();
+
+            if(res.length === 0) {
+                console.log('NENHUM USUARIO ENCONTRADO!');
+                return;
+            }
+
+            setUsuarios(res);
+            setLoadingUsers(false);
+
+            }, 700)
+        }
+        carregaUsuarios();
+    }, [buscaUsersAll]);
 
 
     return (
@@ -86,55 +111,58 @@ export default function Usuarios() {
                                 <table className="table-users">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Cliente</th>
-                                            <th scope="col">Assunto</th>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Usuário</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Cadastrado em</th>
+                                            <th scope="col">Perfil</th>
                                             <th scope="col">Ações</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
 
-                                        {/* map aqui */}
-                                        <tr>
-                                            <td data-label="Cliente">Seila</td>
+                                        {usuarios.map((usuario, idx)=> (
+                                            <tr key={usuario.id}>
+                                                <td data-label="index">{idx + 1}</td>
 
-                                            <td data-label="Assunto">Seila</td>
+                                                <td data-label="Usuario">{usuario.name}</td>
 
-                                            <td data-label="Status">
-                                                <span 
-                                                className="badge" 
-                                                style={{backgroundColor: '#5cb85c'}}
-                                                // style={{backgroundColor: chamado.status === 'Aberto' ? '#5cb85c' : chamado.status === 'Atendido' ? '#999' : '#1a449e' }}
-                                                >
-                                                Ativo
-                                                </span>
-                                            </td>
-
-                                            <td data-label="Cadastrado em">
-                                                10/10/10
-                                            </td>
-
-                                            <td data-label="Ações">
-                                                <div className="actions">
-                                                    <button 
-                                                        className="action" 
-                                                        style={{ backgroundColor: '#3583f6' }}
-                                                        // onClick={()=> callModal(chamado)}
+                                                <td data-label="Status">
+                                                    <span 
+                                                    className="badge" 
+                                                    // style={{backgroundColor: '#5cb85c'}}
+                                                    style={{backgroundColor: usuario.status ? '#5cb85c' : '#999' }}
                                                     >
-                                                        @
-                                                    </button>
-                                                    <button 
-                                                        className="action" 
-                                                        // onClick={()=> navigate(`edit-chamado/${chamado.id}`)}
-                                                        style={{ backgroundColor: '#f6a935' }}
-                                                    >
-                                                        @
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                        {usuario.status ? 'Ativo' : 'Inativo'}
+                                                    </span>
+                                                </td>
+
+                                                <td data-label="Perfil">
+                                                    {usuario.loglevel === 1 ? 'Operador': 'SuperAdmin'}
+                                                </td>
+
+                                                <td data-label="Ações">
+                                                    <div className="actions">
+                                                        <button 
+                                                            className="action" 
+                                                            style={{ backgroundColor: '#3583f6' }}
+                                                            // onClick={()=> callModal(chamado)}
+                                                        >
+                                                            Edit
+                                                        </button>
+                                                        <button 
+                                                            className="action" 
+                                                            // onClick={()=> navigate(`edit-chamado/${chamado.id}`)}
+                                                            style={{ backgroundColor: '#f63535' }}
+                                                            title='Desativar/Ativar'
+                                                        >
+                                                            <BiBlock/>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        
                                         {/* map fim */}
 
                                     </tbody>

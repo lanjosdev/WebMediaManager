@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 
 
 // Cria o Contexto e deixe exportado:
@@ -317,6 +317,240 @@ export default function UserProvider({ children }) {
         }
     }
 
+    // Busca todos os usuarios:
+    function buscaUsersAll() {
+        const token = JSON.parse(Cookies.get('userLocal')).token;
+    
+        if(token) {
+            //Puxa todas os users da API:
+            let usersAll = [];
+            let res = [];
+
+            // Simulando functionAPI await USER_GET_ALL(token).then...
+            // setTimeout(()=> {
+                res = [
+                    {
+                        id: 1,
+                        name: "Admin",
+                        email: "admin@bizsys.com.br",
+                        loglevel: 100,
+                        status: 1
+                    },
+                    {
+                        id: 2,
+                        name: "Renato",
+                        email: "renato@bizsys.com.br",
+                        loglevel: 100,
+                        status: 1
+                    },
+                    {
+                        id: 3,
+                        name: "Cliente Samsung",
+                        email: "samsung@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 4,
+                        name: "bizsys",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 100,
+                        status: 0
+                    },
+                    {
+                        id: 5,
+                        name: "Lucas",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 6,
+                        name: "Usuario Teste",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 7,
+                        name: "Operador",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 8,
+                        name: "Cliente",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 0
+                    },
+                    {
+                        id: 9,
+                        name: "Renato",
+                        email: "renato@bizsys.com.br",
+                        loglevel: 100,
+                        status: 1
+                    },
+                    {
+                        id: 10,
+                        name: "Cliente Samsung",
+                        email: "samsung@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 11,
+                        name: "bizsys",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 100,
+                        status: 0
+                    },
+                    {
+                        id: 12,
+                        name: "Lucas",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 13,
+                        name: "Usuario Teste",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 14,
+                        name: "Operador",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 15,
+                        name: "Cliente",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 0
+                    },
+                    {
+                        id: 16,
+                        name: "Admin",
+                        email: "admin@bizsys.com.br",
+                        loglevel: 100,
+                        status: 1
+                    },
+                    {
+                        id: 17,
+                        name: "Renato",
+                        email: "renato@bizsys.com.br",
+                        loglevel: 100,
+                        status: 1
+                    },
+                    {
+                        id: 18,
+                        name: "Cliente Samsung",
+                        email: "samsung@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 19,
+                        name: "bizsys",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 100,
+                        status: 0
+                    },
+                    {
+                        id: 20,
+                        name: "Lucas",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 21,
+                        name: "Usuario Teste",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 22,
+                        name: "Operador",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 23,
+                        name: "Cliente",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 0
+                    },
+                    {
+                        id: 24,
+                        name: "Renato",
+                        email: "renato@bizsys.com.br",
+                        loglevel: 100,
+                        status: 1
+                    },
+                    {
+                        id: 25,
+                        name: "Cliente Samsung",
+                        email: "samsung@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 26,
+                        name: "bizsys",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 100,
+                        status: 0
+                    },
+                    {
+                        id: 27,
+                        name: "Lucas",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 28,
+                        name: "Usuario Teste",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 29,
+                        name: "Operador",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
+                    {
+                        id: 30,
+                        name: "Cliente",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 0
+                    },
+                ];
+
+                usersAll = res;
+              
+
+                // console.log(usersAll);
+                return usersAll;
+            // }, 1500);
+        }
+
+    }
+
     // Logout usuario:
     function logoutUser() {
         Cookies.remove('userLocal');
@@ -334,6 +568,7 @@ export default function UserProvider({ children }) {
                 logarUser,
                 carregaProjetosAutorizados,
                 carregaMidiasProjetc,
+                buscaUsersAll,
                 logoutUser
             }}  
         >

@@ -109,7 +109,66 @@ main.page-content {
 
             table.table-users {
                 margin-top: 25px;
-                width: 100% ////;
+
+                width: 100%;
+                table-layout: fixed;
+                border-collapse: collapse;
+
+                margin-bottom: 1rem;
+
+                tr {
+                    border-bottom: 1px solid $color-text; 
+                    padding: 0.35rem;
+
+                    th, td {
+                        padding: 1rem .7rem;
+                        text-align: left;
+                        width: 23%;
+        
+                        .action {
+                            // padding: 0.5rem;
+                            padding: .3rem .44rem;
+                            border-radius: 5px;
+                            margin-right: 3px;
+                            // line-height: 0;
+                            color: $white;
+                            font-size: 1.6rem;
+                        }
+        
+                        .badge {
+                            padding: .3rem .44rem;
+                            border-radius: 5px;
+                            color: $white;
+                        }
+                    }
+
+                    th:first-child, td:first-child {
+                        width: 8%;
+                        min-width: 50px;
+                    }
+                    th:nth-child(3), td:nth-child(3) {
+                        text-align: center;
+                        width: 25%;
+                        min-width: 60px;
+                    }
+                    th:nth-child(4), td:nth-child(4) {
+                        text-align: center;
+                        width: 25%;
+                        min-width: 60px;
+                    }
+                    th:last-child, td:last-child {
+                        width: 25%;
+                        text-align: right;
+                    }
+
+                    th {
+                        text-transform: uppercase;
+
+                        &:last-child {
+                            padding: .7rem 2.3rem;
+                        }
+                    }
+                }
             }
         }
     }
