@@ -1,18 +1,113 @@
 @import '../../styles/global.scss';
 
 main.page-content {
-    @include spacing-section();
 
-    h1 {
-        margin-bottom: .5rem;
+    .painel-table {
+        background-color: $color-bgsecundary;
+        // width: 100%;
+        padding: 2rem;
+        border-radius: 10px;
 
-        display: flex;
-        align-items: center;
-        gap: .5rem;
-    }
+        p.loading-usuarios {
+            font-size: 1.6rem;
+            text-align: center;
+            padding: 8rem 0;
+        }
 
-    .grid > p {
-        margin-bottom: 4rem;
+        .cabecalho-painel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 5px;
+        }
+        button.add-projeto {
+            @include style-btn(4rem, $color-main, 1.6rem, $white);
+            font-weight: 600;
+            padding: 0 3rem;
+            border-radius: 10px;
+
+            transition: all .3s ease-in-out;
+
+            &:hover {
+                box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
+            }
+        }
+
+        .content-painel {
+            .not-projetos {
+                text-align: center;
+                padding: 4rem 0;
+    
+                p {
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    line-height: 150%; /* 30px */
+                    letter-spacing: -0.2px;
+    
+                    margin-bottom: .5rem;
+                }
+            }
+
+            table.table-projetos {
+                margin-top: 25px;
+
+                width: 100%;
+                table-layout: fixed;
+                border-collapse: collapse;
+
+                margin-bottom: 1rem;
+
+                tr {
+                    border-bottom: 1px solid $color-text; 
+                    padding: 0.35rem;
+
+                    th, td {
+                        padding: 1rem .7rem;
+                        text-align: left;
+                        width: 23%;
+        
+                        .action {
+                            // padding: 0.5rem;
+                            padding: .3rem .44rem;
+                            border-radius: 5px;
+                            margin-right: 3px;
+                            // line-height: 0;
+                            color: $white;
+                            font-size: 1.6rem;
+                        }
+        
+                        .badge {
+                            padding: .3rem .44rem;
+                            border-radius: 5px;
+                            color: $white;
+                        }
+                    }
+
+                    th:first-child, td:first-child {
+                        width: 8%;
+                        min-width: 50px;
+                    }
+                    th:nth-child(3), td:nth-child(3) {
+                        text-align: center;
+                        width: 25%;
+                        min-width: 60px;
+                    }
+                    th:last-child, td:last-child {
+                        width: 25%;
+                        text-align: right;
+                    }
+
+                    th {
+                        text-transform: uppercase;
+
+                        &:last-child {
+                            padding: .7rem 2.3rem;
+                        }
+                    }
+                }
+            }
+        }
     }
 
 

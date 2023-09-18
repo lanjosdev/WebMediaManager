@@ -34,7 +34,7 @@ export default function Usuarios() {
             <main className="page-content">
                 <div className="grid">
 
-                    <h1><FaUsers/> <span>Usuários</span></h1>
+                    <h1 className="title"><FaUsers/> <span>Usuários</span></h1>
                     <p>
                         Abaixo você pode visualizar, adicionar e editar usuários do ambiente.
                     </p>
@@ -74,7 +74,7 @@ export default function Usuarios() {
 
                                 <div className="not-users">
                                     <p>
-                                        Nenhum usuários foi adicionado!
+                                        Nenhum usuário foi adicionado!
                                     </p>
                                     <button className="add-user" onClick=''>
                                         + Novo Usuário
@@ -83,7 +83,7 @@ export default function Usuarios() {
 
                                 ) : (
 
-                                <table>
+                                <table className="table-users">
                                     <thead>
                                         <tr>
                                             <th scope="col">Cliente</th>

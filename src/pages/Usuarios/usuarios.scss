@@ -1,6 +1,11 @@
 @import '../../styles/global.scss';
 
 main.page-content {
+    h1.title {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
     
     .campo-pesquisa {
         margin-bottom: 1.5rem;
@@ -102,7 +107,7 @@ main.page-content {
                 }
             }
 
-            table {
+            table.table-users {
                 margin-top: 25px;
                 width: 100% ////;
             }
