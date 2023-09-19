@@ -9,7 +9,7 @@ import { Header } from '../../components/Header';
 // import { ModalMedia } from "../../components/Modal/ModalMedia/modalMedia";
 
 // Assets:
-import { FaUsers } from 'react-icons/fa';
+import { FaUsers, FaCaretLeft, FaCaretRight} from 'react-icons/fa';
 import { FiSearch } from 'react-icons/fi';
 import { BiBlock } from 'react-icons/bi';
 
@@ -21,6 +21,16 @@ import './usuarios.scss';
 export default function Usuarios() {
     const [loadingUsers, setLoadingUsers] = useState(true);
     const [usuarios, setUsuarios] = useState([]);
+
+
+
+    const [page, setPage] = useState(1);
+
+    const porPage = 10;
+    const totalPages = Math.ceil(usuarios.length / porPage);
+
+    const [inputPage, setInputPage] = useState(page);
+    const [inputFocus, setInputFocus] = useState(false);
 
     const {
         userDetails, 
@@ -49,6 +59,54 @@ export default function Usuarios() {
         }
         carregaUsuarios();
     }, [buscaUsersAll]);
+
+    function handleChangeInput(e) {
+        if(e === 'reset') {
+            setInputFocus(false);
+            setInputPage(page);
+        } else {
+            setInputFocus(true);
+            setInputPage(e.target.value);
+        }
+    }
+
+    function handleNextPage() {
+        if(inputFocus) {
+            handleChangeInput('reset');
+            return
+        }
+        // if(inputPage > totalPages || inputPage < 1) {
+        //     handleChangeInput('reset');
+        //     return
+        // }
+
+        setInputPage(inputPage + 1);
+        setPage(page + 1);
+    }
+    function handlePreviousPage() {
+        if(inputFocus) {
+            handleChangeInput('reset');
+            return
+        }   
+        // if(inputPage > totalPages || inputPage < 1) {
+        //     handleChangeInput('reset');
+        //     return
+        // }
+
+        setInputPage(inputPage - 1);
+        setPage(page - 1);
+    }
+
+    function handleEnterDown(e) {
+        if(e.keyCode === 13) {
+            if(inputPage > totalPages || inputPage < 1) {
+                handleChangeInput('reset');
+                return
+            }
+
+            setPage(Number(e.target.value));
+        }        
+    }
 
 
     return (
@@ -121,9 +179,12 @@ export default function Usuarios() {
 
                                     <tbody>
 
-                                        {usuarios.map((usuario, idx)=> (
+                                        {usuarios.slice(
+                                            (page - 1) * porPage,
+                                            (page - 1) * porPage + porPage
+                                        ).map((usuario, idx)=> (
                                             <tr key={usuario.id}>
-                                                <td data-label="index">{idx + 1}</td>
+                                                <td data-label="index">{(idx + 1) + (page - 1) * porPage}</td>
 
                                                 <td data-label="Usuario">{usuario.name}</td>
 
@@ -163,12 +224,42 @@ export default function Usuarios() {
                                             </tr>
                                         ))}
                                         
-                                        {/* map fim */}
 
                                     </tbody>
                                 </table>
 
                                 )}
+                            </div>
+
+
+                            <div className="paginacao">
+                                <button 
+                                onClick={handlePreviousPage}
+                                disabled={page <= 1}
+                                >
+                                    <FaCaretLeft size={20}/>
+                                </button>
+
+                                <input 
+                                type="number" 
+                                min={1} 
+                                max={totalPages}
+                                value={inputPage}
+                                onChange={e => handleChangeInput(e)}
+                                onKeyDown={e => handleEnterDown(e)}
+                                className={(inputPage > totalPages || inputPage < 1) && 'error'}
+                                autoComplete="off"
+                                />
+
+                                <span>de {totalPages}</span>
+
+                                <button 
+                                className="next"
+                                onClick={handleNextPage}
+                                disabled={page >= totalPages}
+                                >
+                                    <FaCaretRight size={20}/>
+                                </button>
                             </div>
 
                             </>

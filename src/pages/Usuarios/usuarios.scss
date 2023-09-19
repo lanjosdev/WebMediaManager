@@ -114,7 +114,7 @@ main.page-content {
                 table-layout: fixed;
                 border-collapse: collapse;
 
-                margin-bottom: 1rem;
+                margin-bottom: 2rem;
 
                 tr {
                     border-bottom: 1px solid $color-text; 
@@ -168,6 +168,65 @@ main.page-content {
                             padding: .7rem 2.3rem;
                         }
                     }
+                }
+            }
+        }
+
+        .paginacao {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+
+            button {
+                background-color: $color-secundary;
+                color: $white;
+
+                display: flex;
+                align-items: center;
+                padding: .4rem .5rem .4rem .3rem;
+                &.next {
+                    padding: .4rem .3rem .4rem .5rem;
+                }
+                border-radius: 5px;
+
+                transition: all .2s ease-in-out;
+                &:hover {
+                    background-color: $white;
+                    color: $color-secundary;
+                }
+                &:active {
+                    background-color: $color-main;
+                    color: $white;
+                }
+            }
+            button[disabled] {
+                opacity: .5;
+                cursor: no-drop;
+            }
+
+            input {
+                font-size: 1.6rem;
+                height: 2.8rem;
+                width: 4.5rem;
+                text-align: center;
+
+                border: 1px solid $color-secundary;
+                border-radius: 5px;
+                                
+                transition: all .3s ease-in-out;
+    
+                &:hover {
+                    // cursor: pointer;
+                    border: 1px solid $color-main;
+                    box-shadow: 0 0 1px 1px $color-main;
+                }
+                &:focus {
+                    box-shadow: 0 0 0 2px #5d9cdf, 0 0 0 5px #A0BDDD;
+                }
+
+                &.error {
+                    box-shadow: 0 0 0 2px #df5d5d, 0 0 0 5px #dda0a0;
                 }
             }
         }

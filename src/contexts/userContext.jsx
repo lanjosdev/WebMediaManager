@@ -539,6 +539,13 @@ export default function UserProvider({ children }) {
                         loglevel: 1,
                         status: 0
                     },
+                    {
+                        id: 31,
+                        name: "Cliente",
+                        email: "biz@bizsys.com.br",
+                        loglevel: 1,
+                        status: 1
+                    },
                 ];
 
                 usersAll = res;
