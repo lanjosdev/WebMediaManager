@@ -11,6 +11,7 @@ import { ModalMedia } from "../../components/Modal/ModalMedia/modalMedia";
 
 // Assets:
 import { MdImage, MdVideoLibrary } from 'react-icons/md';
+import SpinnerLogo from '../../assets/BIZSYS_logo_icon.png';
 
 // Estilo:
 import './home.scss';
@@ -209,29 +210,33 @@ export default function Home() {
 
 
     return (
+        <>
+        {loadingProjetos ? (
+            <div className="title-loading"><img src={SpinnerLogo} alt="" /></div>
+        ) : (
         <DragDropContext
-            onDragEnd={(result) => {
-                const { source, destination } = result;
-                if (!destination) {
-                return;
-                }
-                if (
-                source.index === destination.index &&
-                source.droppableId === destination.droppableId
-                ) {
-                return;
-                }
+        onDragEnd={(result) => {
+            const { source, destination } = result;
+            if (!destination) {
+            return;
+            }
+            if (
+            source.index === destination.index &&
+            source.droppableId === destination.droppableId
+            ) {
+            return;
+            }
 
-                // setListaMidias((prevMidias) =>
-                //   reorder(prevMidias, source.index, destination.index)
-                // );
-                let newOrder = reorder(midias, source.index, destination.index);
-                console.log(newOrder);
+            // setListaMidias((prevMidias) =>
+            //   reorder(prevMidias, source.index, destination.index)
+            // );
+            let newOrder = reorder(midias, source.index, destination.index);
+            console.log(newOrder);
 
-                setMidias(newOrder);
-                // dragUpdateSequence(newOrder);
-            }}
-        >
+            setMidias(newOrder);
+            // dragUpdateSequence(newOrder);
+        }}
+    >
 
         <div className='Container'>
 
@@ -398,5 +403,7 @@ export default function Home() {
         </div>
 
         </DragDropContext>
+        )}
+        </>
     );
 }

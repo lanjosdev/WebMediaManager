@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 
 
 // Cria o Contexto e deixe exportado:

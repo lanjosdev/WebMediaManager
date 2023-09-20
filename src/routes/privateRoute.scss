@@ -3,4 +3,25 @@ div.title-loading {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    img {
+        max-width: 80px;
+
+        animation: spinner 1.5s linear infinite;
+    }
+
+
+    @keyframes spinner {
+        0% {
+            transform: rotate(0deg) scale(1);
+        }
+
+        50% {
+            transform: rotate(180deg) scale(1.2);
+        }
+        
+        100% {
+            transform: rotate(360deg) scale(1);
+        }        
+    }
 }
