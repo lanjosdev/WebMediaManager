@@ -56,7 +56,7 @@ export default function Login() {
           <h1>Faça seu login no ambiente</h1>
         </div>
 
-        <form onSubmit={handleSubmitLogin} autoComplete="off">
+        <form onSubmit={handleSubmitLogin} autoComplete="off" className="shadow-xl">
           <div className="input-div">
               <AiOutlineUser/>
               <input

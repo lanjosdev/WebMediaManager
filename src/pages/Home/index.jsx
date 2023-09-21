@@ -283,7 +283,7 @@ export default function Home() {
                         )}
                     </div>
 
-                    <div className="painel-midias">
+                    <div className="painel-midias shadow-xl">
                         {loadingMidias ? (
 
                             <p className="loading-midias">
@@ -342,7 +342,7 @@ export default function Home() {
                                             className="item-midia"
                                         >
                                             <div 
-                                                className={midia.checked === 1 ? "item-content ativa" : "item-content"} 
+                                                className={`item-content ${midia.checked === 1 && 'ativa'}`} 
                                                 onClick={()=> callModalEditMidia(midia)}
                                                 title="Clique p/ editar"
                                             >

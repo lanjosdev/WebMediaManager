@@ -112,7 +112,7 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
         <div className="modal-background" onClick={closeModal}></div>
 
         <form className="modal-window" onSubmit={handleAddMedia}>
-            <a className='btn-close' onClick={closeModal} title="Fechar">
+            <a className='btn-close btn btn-square btn-outline' onClick={closeModal} title="Fechar">
                 <FiX/>
             </a>
             
@@ -185,7 +185,7 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
                             )}
                         </div>
 
-                        <div className="choice-file">
+                        <div className="choice-file shadow-xl">
                             <label>Arquivo: </label>
     
                             <label className="input-file">
@@ -218,7 +218,7 @@ export function ModalMedia({ closeModal, midiaEdit, updateSequence }) {
                         </div>
                     ) : (
                         <div className="midia">
-                        <div className="choice-file">
+                        <div className="choice-file shadow-xl">
                             <label>Arquivo: </label>
 
                             <label className="input-file">

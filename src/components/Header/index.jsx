@@ -42,7 +42,7 @@ export function Header() {
 
     return (
         <>
-        <header className="Header-container">
+        <header className="Header-container shadow-md">
             <div className="grid">
 
                 <Link to='/home'>

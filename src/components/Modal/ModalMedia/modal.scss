@@ -39,17 +39,16 @@ div.Modal-container {
         animation: showModal .5s ease-in-out;
 
         .btn-close {
-            cursor: pointer;
-
+            // cursor: pointer;
             position: absolute;
             right: 2.5rem;
             top: 2.5rem;
 
-            line-height: 0;
-            border: 2px solid $black;
-            border-radius: 6px;
+            // line-height: 0;
+            border: 2px solid $color-secundary;
+            // border-radius: 6px;
 
-            transition: all .2s ease-in-out;
+            // transition: all .2s ease-in-out;
 
             svg {
                 width: 2rem;
@@ -58,7 +57,7 @@ div.Modal-container {
 
             &:hover {
                 border: 2px solid $red;
-                color: $red;
+                background-color: $red;
             }            
         }
 
@@ -82,7 +81,8 @@ div.Modal-container {
                     max-width: 250px;
                     border-radius: 7px;
 
-                    box-shadow: 0 0 5px rgba(43, 42, 42, 0.753);
+                    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                    // box-shadow: 0 0 5px rgba(43, 42, 42, 0.753);
                 }
                 .sem-arquivo {
                     border: 1px solid;
