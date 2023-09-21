@@ -42,7 +42,7 @@ header.Header-container {
             li a {
                 background-color: transparent;
                 padding: .4rem 1.2rem .5rem;
-                border-radius: 5px;
+                border-radius: 10px;
 
                 font-size: 2rem;
                 font-weight: 600;
@@ -56,7 +56,7 @@ header.Header-container {
                 }
                 
                 &:hover {
-                    background-color: $white;
+                    background-color: $gray-300;
                     color: $color-text;
                 }
             }
@@ -66,7 +66,7 @@ header.Header-container {
     .btn-logout {
         background-color: transparent;
         padding: .4rem 1.2rem .5rem;
-        border-radius: 5px;
+        border-radius: 10px;
         
         color: $color-text;
         font-size: 2rem;
@@ -80,7 +80,8 @@ header.Header-container {
         transition: all .3s ease-in-out;
 
         &:hover {
-            background-color: $white;
+            background-color: $gray-300;
+            color: $color-text;
         }
     }
 

@@ -54,15 +54,17 @@ $black: #000;
 
     font-size: $fontSize;
     color: $colorText;
-
+    
+    will-change: filter;
     transition: all .3s ease-in-out;
 
     &:hover {
-        background-color: $colorText;
-        color: $bg;
+        filter: drop-shadow(0 0 8px $bg) brightness(1.1);
+        // background-color: $colorText;
+        // color: $bg;
     }
     &:active {
-        filter: brightness(0.8);
+        filter: drop-shadow(0 0 8px $bg) brightness(0.9);
     }
 }
 /* VARIABLES & MIXINS */

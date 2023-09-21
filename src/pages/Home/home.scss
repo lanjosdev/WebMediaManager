@@ -29,17 +29,20 @@ main.page-content {
             width: 100%;
             max-width: 25rem;
             height: 3rem;
-            border-radius: 5px;
+            border-radius: 7px;
             box-shadow: 0 1px 4px 1px rgba(49, 49, 49, 0.452);
             
             padding: 0 .4rem;
             vertical-align: middle;
-
+            
+            will-change: filter;
             transition: all .3s ease-in-out;
 
             &:hover {
                 cursor: pointer;
-                box-shadow: 0px 1px 7px 2px $color-main;
+                filter: drop-shadow(0 0 8px $color-main);
+                box-shadow: 0 0 0 1px #1f75cb8c;
+                // box-shadow: 0px 1px 7px 2px $color-main;
             }
         }
     }
@@ -74,12 +77,11 @@ main.page-content {
             font-weight: 600;
             padding: 0 3rem;
             border-radius: 10px;
+            // transition: all .3s ease-in-out;
 
-            transition: all .3s ease-in-out;
-
-            &:hover {
-                box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
-            }
+            // &:hover {
+            //     box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
+            // }
         }
 
         .content-painel {
@@ -116,13 +118,13 @@ main.page-content {
                         background-color: #828181;
                         // color: $white;
                         width: 150px;
-                        border-radius: 7px;
+                        border-radius: 10px;
                         box-shadow: 0px 1px 7px 2px rgba(49, 49, 49, 0.452);
 
                         padding-top: 4px;
                         margin-bottom: 10px;
 
-                        transition: all .3s ease-in-out;
+                        transition: all .3s, filter .3s ease-in-out;
                         position: relative;
 
                         &.ativa {
@@ -140,7 +142,7 @@ main.page-content {
                         &:active {
                             // filter: brightness(0.85);
                             box-shadow: 0px 0px 0px 2px $color-main, 0px 1px 7px 3px $color-main;
-                            // opacity: 0.8;
+                            transform: scale(0.91);
                         }
 
                         .midia-disable {
@@ -205,20 +207,6 @@ main.page-content {
                         height: 20px;
                     }
                 }
-            }
-
-            .btn-more {
-                background-color: $color-main;
-                display: block;
-                margin: 0 auto;
-                margin-top: 2rem;
-
-                color: $white;
-                font-weight: 600;
-                font-size: 1.6rem;
-                padding: .3rem 1rem;
-
-                border-radius: 5px;
             }
         }
     }
