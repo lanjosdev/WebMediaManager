@@ -35,6 +35,8 @@ export default function Home() {
 
     const [midiaSelecionada, setMidiaSelecionada] = useState(null);
 
+    const [tabExibicao, setTabExibicao] = useState(true);
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const reorder = (list, startIndex, endIndex) => {
@@ -185,6 +187,8 @@ export default function Home() {
         
         setMidias(listaMidias);
 
+        setTabExibicao(true);
+
         setLoadingMidias(false);
     }
 
@@ -250,40 +254,51 @@ export default function Home() {
                         Abaixo você pode visualizar, adicionar e editar as mídias de acordo com o projeto selecionado.
                     </p>
 
-                    
-                    <div className="select-project">
-                        <label>Projeto selecionado:</label>
-                        {loadingProjetos ? (
+                    <div className="top-painel">
+                        <div className="tabs">
+                            <button 
+                            className={tabExibicao && 'tab-ativa'}
+                            onClick={()=> setTabExibicao(true)}
+                            >Em exibição</button>
+                            <button 
+                            className={!tabExibicao && 'tab-ativa'}
+                            onClick={()=> setTabExibicao(false)}
+                            >Desativadas</button>
+                        </div>
 
-                            <select disabled>
-                                <option value="">Buscando...</option>
-                            </select>
+                        <div className="select-project">
+                            <label>Projeto selecionado:</label>
+                            {loadingProjetos ? (
 
-                        ) : (
-                            projetos.length === 0 ? (
-
-                                <select style={{color: 'red'}}>
-                                    <option value=''>Nenhum projeto encontrado!</option>
+                                <select disabled>
+                                    <option value="">Buscando...</option>
                                 </select>
 
                             ) : (
+                                projetos.length === 0 ? (
 
-                                <select 
-                                    value={projetoSelecionado}
-                                    onChange={selectCarregaMidias}
-                                >
-                                    {projetos.map((projeto)=> (
-                                        <option key={projeto.id} value={projeto.id} title={projeto.id}>
-                                            {projeto.nomeProjeto}
-                                        </option>
-                                    ))}
-                                </select>
+                                    <select style={{color: 'red'}}>
+                                        <option value=''>Nenhum projeto encontrado!</option>
+                                    </select>
 
-                            )
-                        )}
+                                ) : (
+
+                                    <select 
+                                        value={projetoSelecionado}
+                                        onChange={selectCarregaMidias}
+                                    >
+                                        {projetos.map((projeto)=> (
+                                            <option key={projeto.id} value={projeto.id} title={projeto.id}>
+                                                {projeto.nomeProjeto}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )
+                            )}
+                        </div>
                     </div>
 
-                    <div className="painel-midias shadow-xl">
+                    <div className="painel-midias">
                         {loadingMidias ? (
 
                             <p className="loading-midias">
@@ -301,7 +316,7 @@ export default function Home() {
                             ) : (
                                 <>
                                 <div className='cabecalho-painel'>
-                                    <h2>Lista de mídias</h2>
+                                    <h2>{tabExibicao ? 'Mídias ativas' : 'Mídias desativadas'}</h2>
                                     {midias.length !== 0 && 
                                     <button className="add-midia" onClick={callModalAddMidia}>+ Add mídia</button>}
                                 </div>
@@ -320,6 +335,7 @@ export default function Home() {
                                     </div>
 
                                 ) : (
+                                    tabExibicao ? (
                                     <>
                                     <p className="sub-cabecalho">
                                         Basta arrastar e soltar as mídias para ordernar a sequência de exibição:
@@ -335,6 +351,7 @@ export default function Home() {
                                         {midias.map((midia, idx)=> (
                                         <Draggable key={midia.id} draggableId={String(midia.id)} index={idx}>
                                         {(draggableProvided) => (
+                                        midia.checked === 1 && (
                                         <li 
                                             {...draggableProvided.draggableProps}
                                             ref={draggableProvided.innerRef}
@@ -366,6 +383,7 @@ export default function Home() {
                                                 title="Ativa/Desativa" 
                                             />
                                         </li>
+                                        )
                                         )}
                                         </Draggable>
                                         ))}
@@ -382,6 +400,77 @@ export default function Home() {
                                         </button>
                                     )} */}
                                     </>
+                                    ) : (
+                                    <>
+                                    
+                                    <p className="sub-cabecalho">Abaixo estão as mídias que não serão exibidas:</p>
+
+                                    <table className="table-midias">
+                                        {/* head */}
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Mídia</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Tipo</th>
+                                                <th scope="col">Ações</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        {/* body */}
+                                        <tbody>
+                                            {midias.map((midia, idx)=> (
+                                                midia.checked === 0 && (
+                                                <tr key={midia.id}>
+                                                    <td data-label="index">{idx}</td>
+
+                                                    <td data-label="Midia">
+                                                        <img src={midia.media_thumb} alt="seila" className="shadow-md" />
+                                                    </td>
+
+                                                    <td data-label="Status">
+                                                        <span 
+                                                        className="badge" 
+                                                        // style={{backgroundColor: '#5cb85c'}}
+                                                        style={{backgroundColor: midia.checked === 1 ? '#5cb85c' : '#999' }}
+                                                        >
+                                                            {midia.checked === 1 ? 'Ativo' : 'Inativo'}
+                                                        </span>
+                                                    </td>
+
+                                                    <td data-label="Tipo">
+                                                        {midia.media_type === 1 ? 'Imagem' : 'Vídeo'}
+                                                    </td>
+
+                                                    <td data-label="Ações">
+                                                        <div className="actions">
+                                                            <button 
+                                                                className="action" 
+                                                                style={{ backgroundColor: '#3583f6' }}
+                                                                // onClick={()=> callModal(chamado)}
+                                                            >
+                                                                Edit
+                                                            </button>
+                                                            <button 
+                                                                className="action" 
+                                                                // onClick={()=> navigate(`edit-chamado/${chamado.id}`)}
+                                                                style={{ backgroundColor: '#5cb85c' }}
+                                                                title='Desativar/Ativar'
+                                                                onClick={()=> updateChecked(midia)}
+                                                            >
+                                                                Ativar
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                )
+                                            ))}
+                                        </tbody>
+                                                                               
+                                    </table>
+
+                                    </>
+                                    )
                                 )}
                                 </div>
                                 </>

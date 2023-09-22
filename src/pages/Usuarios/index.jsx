@@ -231,7 +231,6 @@ export default function Usuarios() {
                                 )}
                             </div>
 
-
                             <div className="paginacao">
                                 <button 
                                 onClick={handlePreviousPage}

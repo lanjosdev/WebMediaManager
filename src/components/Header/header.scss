@@ -2,7 +2,10 @@
 
 header.Header-container {
     @include spacing-lateral();
-    background-color: $color-bgprimary;
+    background-color: #eeeeeec7;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    
     width: 100%;
     position: sticky;
     top: 0;
